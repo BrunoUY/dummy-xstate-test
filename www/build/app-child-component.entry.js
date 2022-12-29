@@ -12,6 +12,17 @@ const AppChildComponent = class {
     testHandleDataService.subscribe(state => {
       this.state_machineTestHandleData = state;
     });
+<<<<<<< Updated upstream
+=======
+    this._machineTestHandleData.onTransition((state) => {
+      console.log(`Machine state changed: ${state.value}`);
+    });
+  }
+  componentDidRender() {
+    console.group('componentDidRender');
+    console.log(this.state_machineTestHandleData.value);
+    console.groupEnd();
+>>>>>>> Stashed changes
   }
   render() {
     if (this.state_machineTestHandleData.matches('saved'))
