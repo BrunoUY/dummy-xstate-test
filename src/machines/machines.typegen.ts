@@ -1,63 +1,48 @@
+// This file was automatically generated. Edits will be overwritten
 
-  // This file was automatically generated. Edits will be overwritten
-
-  export interface Typegen0 {
-        '@@xstate/typegen': true;
-        internalEvents: {
-          "xstate.init": { type: "xstate.init" };
-        };
-        invokeSrcNameMap: {
-          
-        };
-        missingImplementations: {
-          actions: never;
-          delays: never;
-          guards: never;
-          services: never;
-        };
-        eventsCausingActions: {
-          
-        };
-        eventsCausingDelays: {
-          
-        };
-        eventsCausingGuards: {
-          
-        };
-        eventsCausingServices: {
-          
-        };
-        matchesStates: "selection" | "selection.containersForm" | "selection.filteringForm" | "selection.watchlistsForm" | { "selection"?: "containersForm" | "filteringForm" | "watchlistsForm"; };
-        tags: never;
-      }
+export interface Typegen0 {
+  '@@xstate/typegen': true;
+  'internalEvents': {
+    'xstate.init': { type: 'xstate.init' };
+  };
+  'invokeSrcNameMap': {};
+  'missingImplementations': {
+    actions: never;
+    delays: never;
+    guards: never;
+    services: never;
+  };
+  'eventsCausingActions': {};
+  'eventsCausingDelays': {};
+  'eventsCausingGuards': {};
+  'eventsCausingServices': {};
+  'matchesStates':
+    | 'selection'
+    | 'selection.containersForm'
+    | 'selection.filteringForm'
+    | 'selection.watchlistsForm'
+    | { selection?: 'containersForm' | 'filteringForm' | 'watchlistsForm' };
+  'tags': never;
+}
 
 export interface Typegen1 {
-        '@@xstate/typegen': true;
-        internalEvents: {
-          "xstate.init": { type: "xstate.init" };
-        };
-        invokeSrcNameMap: {
-          
-        };
-        missingImplementations: {
-          actions: never;
-          delays: never;
-          guards: never;
-          services: never;
-        };
-        eventsCausingActions: {
-          
-        };
-        eventsCausingDelays: {
-          
-        };
-        eventsCausingGuards: {
-          
-        };
-        eventsCausingServices: {
-          
-        };
-        matchesStates: "idle" | "saved";
-        tags: never;
-      }
-  
+  '@@xstate/typegen': true;
+  'internalEvents': {
+    'xstate.init': { type: 'xstate.init' };
+  };
+  'invokeSrcNameMap': {};
+  'missingImplementations': {
+    actions: never;
+    delays: never;
+    guards: never;
+    services: never;
+  };
+  'eventsCausingActions': {
+    saveData: 'SAVE_DATA';
+  };
+  'eventsCausingDelays': {};
+  'eventsCausingGuards': {};
+  'eventsCausingServices': {};
+  'matchesStates': 'idle' | 'saved';
+  'tags': never;
+}
