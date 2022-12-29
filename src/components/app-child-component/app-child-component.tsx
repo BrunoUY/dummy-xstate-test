@@ -3,23 +3,24 @@ import { machineTestHandleData } from "../../machines/machines";
 import { interpret } from 'xstate';
 
 
-@Component({
+@Component( {
     tag: 'app-child-component',
     styleUrl: 'app-child-component.css'
-})
+} )
 export class AppChildComponent {
 
     private _machineTestHandleData = interpret( machineTestHandleData );
     @State() state_machineTestHandleData = machineTestHandleData.initialState
 
-    componentWillLoad() {
+    componentWillLoad () {
+        this._machineTestHandleData.start();
         this._machineTestHandleData.subscribe( ( state ) => {
             this.state_machineTestHandleData = state;
-        } )
+        } );
         this._machineTestHandleData.onTransition( ( state ) => {
             console.log( `Machine state changed: ${ state.value }` );
-            console.log( state.context )
-        } ); 
+        } );
+        console.log( 'componentWillLoad' )
     }
 
     componentDidRender () {
@@ -28,10 +29,13 @@ export class AppChildComponent {
     }
 
 
-    render() {
+    render () {
         return (
             <div>
-                <p>{this.state_machineTestHandleData.context.data}!</p>
+                { this.state_machineTestHandleData.matches( "saved" ) && (
+
+                    <p>{ this.state_machineTestHandleData.context }</p>
+                ) }
             </div>
         );
     }

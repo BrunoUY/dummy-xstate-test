@@ -16,12 +16,17 @@ export class AppForms {
     async componentWillLoad () {
 
         //@ts-ignore
+        this._machineDataSelectionService.start();
         this._machineDataSelectionService.subscribe( state => {
             this.state_machineDataSelection = state;
         } );
-        this._machineDataSelectionService.start();
 
     }
+
+    componentDidRender() {
+        console.log(this.state_machineDataSelection.value);
+    }
+
 
     handleButtonClick = () => {
         const _ionSelectValue = ( this.el.querySelector( '.select-option ion-select' ) as HTMLSelectElement ).value;
@@ -37,16 +42,19 @@ export class AppForms {
         const _optionValue = ( this.el.querySelector( '.select-option ion-select' ) as HTMLIonSelectElement ).value;
 
         if ( _optionValue === 'SELECT_CONTAINERS' ) {
+            this._machineDataSelectionService.send( "SELECT_CONTAINERS" );
         }
 
 
         // decide what to pass if there is a "watchlists only" selection or filter assets selection
         if ( _optionValue === 'SELECT_WATCHLISTS' ) {
+            this._machineDataSelectionService.send( "SELECT_WATCHLISTS" );
         }
 
 
         // decide what to pass if the selection are only assets
         if ( _optionValue === 'FILTER_ASSETS' ) {
+            this._machineDataSelectionService.send( "FILTER_ASSETS" );
         }
     }
 

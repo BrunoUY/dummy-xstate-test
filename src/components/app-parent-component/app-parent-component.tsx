@@ -1,4 +1,4 @@
-import { Component, h } from '@stencil/core';
+import { Component, State, h } from '@stencil/core';
 import { machineTestHandleData } from "../../machines/machines";
 import { interpret } from 'xstate';
 
@@ -10,16 +10,26 @@ import { interpret } from 'xstate';
 export class AppParentComponent {
 
     private _machineTestHandleData = interpret( machineTestHandleData );
+    @State() state_machineTestHandleData = machineTestHandleData.initialState;
+
+    componentWillLoad () {
+        this._machineTestHandleData.start();
+        this._machineTestHandleData.subscribe( ( state ) => {
+            this.state_machineTestHandleData = state;
+        } );
+    }
+
+    componentDidRender () {
+        console.group( 'componentDidRender' );
+        console.log( this.state_machineTestHandleData.value );
+        console.log( this.state_machineTestHandleData.context );
+        console.groupEnd();
+    }
 
     private _sendDataToMachine = () => {
         console.log( 'save_data to machine' );
-        this._machineTestHandleData.send( 'SAVE_DATA', {
-            data: {
-                prop1: 'value1',
-                prop2: 'value2'
-            }
-        } );
-        console.log( this._machineTestHandleData );
+        this._machineTestHandleData.send( "SAVE_DATA", { text: 'data from parent component' });
+        //console.log( this.state_machineTestHandleData.value, this._machineTestHandleData );
     }
 
 
@@ -27,8 +37,8 @@ export class AppParentComponent {
         return (
             <div>
                 <ion-button onClick={ () => this._sendDataToMachine() }>Send data to machine</ion-button>
-                
-                <app-child-componen></app-child-componen>
+                { this.state_machineTestHandleData.value }
+                <app-child-component></app-child-component>
             </div>
         );
     }

@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@xstate/cli": "^0.4.1",
-    "typescript": "^4.9.4"
+    "@xstate/react": "^3.0.1",
+    "typescript": "^4.9.4",
+    "xstate": "^4.35.1"
   }
 }

@@ -1,5 +1,5 @@
 import { r as registerInstance, h, i as getElement } from './index-136245cb.js';
-import { i as interpret, a as machineDataSelection } from './machines-a30e72ff.js';
+import { i as interpret, m as machineDataSelection } from './machines-9a233edf.js';
 
 const appFormsCss = "app-forms{}";
 
@@ -19,20 +19,26 @@ const AppForms = class {
   }
   async componentWillLoad() {
     //@ts-ignore
+    this._machineDataSelectionService.start();
     this._machineDataSelectionService.subscribe(state => {
       this.state_machineDataSelection = state;
     });
-    this._machineDataSelectionService.start();
+  }
+  componentDidRender() {
+    console.log(this.state_machineDataSelection.value);
   }
   async _onClickSelectAssets() {
     const _optionValue = this.el.querySelector('.select-option ion-select').value;
     if (_optionValue === 'SELECT_CONTAINERS') {
+      this._machineDataSelectionService.send("SELECT_CONTAINERS");
     }
     // decide what to pass if there is a "watchlists only" selection or filter assets selection
     if (_optionValue === 'SELECT_WATCHLISTS') {
+      this._machineDataSelectionService.send("SELECT_WATCHLISTS");
     }
     // decide what to pass if the selection are only assets
     if (_optionValue === 'FILTER_ASSETS') {
+      this._machineDataSelectionService.send("FILTER_ASSETS");
     }
   }
   render() {
