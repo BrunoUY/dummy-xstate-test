@@ -5449,42 +5449,50 @@ createMachine({
       states: {
         watchlistsForm: {},
         filteringForm: {},
-        containersForm: {}
+        containersForm: {},
       },
       on: {
-        SELECT_CONTAINERS: ".containersForm",
-        SELECT_WATCHLISTS: ".watchlistsForm",
-        FILTER_ASSETS: ".filteringForm"
-      }
-    }
-  }
+        SELECT_CONTAINERS: '.containersForm',
+        SELECT_WATCHLISTS: '.watchlistsForm',
+        FILTER_ASSETS: '.filteringForm',
+      },
+    },
+  },
 });
 const machineTestHandleData = 
 /** @xstate-layout N4IgpgJg5mDOIC5QAsCGA7CAbMBBWsAlulACKoAuqAdIdmAMQDKuAagKID6puAKrgG0ADAF1EoAA4B7IhUJT04kAA9EARgBs1AOwAOAKwBONbu0a1a-UKH7tAGhABPRAFo1AJgDM1DdoAshsZ+2kLuhu7ufgC+MQ7oUhBwSmiYOPhEJORUStKy8opIKq6eatTuan5Cuh6euroBhn6eDs4ILp7lPn7lfiae2pr6GtFRDin06cRklDR0ODkyhHIKSqoIZtRCJe76La5e3oa+ap4atZ42GsOxIONpBFNZNLCoAG6QC3krhWte1AaGfq7JyITzeS7ufy9SoaHYxGJAA */
 createMachine({
   predictableActionArguments: true,
   tsTypes: {},
-  id: "handleAssingData",
-  initial: "idle",
+  id: 'handleAssingData',
+  initial: 'idle',
+  schema: {
+    context: {},
+    events: {},
+  },
   context: {
-    data: {}
+    data: 'initial data',
   },
   states: {
     idle: {
       on: {
         SAVE_DATA: {
-          target: "saved",
-          actions: assign({
-            data: (context, event) => {
-              console.log(event, context);
-              return event;
-            }
-          })
-        }
-      }
+          target: 'saved',
+          actions: 'saveData',
+        },
+      },
     },
-    saved: {}
-  }
+    saved: {},
+  },
+}, {
+  actions: {
+    saveData: assign({
+      data: (_, event) => event.text,
+    }),
+  },
 });
+// We can start and share the machine here
+const testHandleDataService = interpret(machineTestHandleData);
+testHandleDataService.start();
 
-export { machineDataSelection as a, interpret as i, machineTestHandleData as m };
+export { interpret as i, machineDataSelection as m, testHandleDataService as t };

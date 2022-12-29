@@ -9,8 +9,8 @@ export class AppRoot {
     return (
       <ion-app>
         <ion-router useHash={false}>
-                <ion-route url="/app-forms" component="app-forms" />
-                <ion-route url="/" component="app-parent-component" />
+          {/* <ion-route url="/app-forms" component="app-forms" /> */}
+          <ion-route url="/" component="app-parent-component" />
         </ion-router>
         <ion-nav />
       </ion-app>
