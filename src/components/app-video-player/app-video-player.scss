@@ -1,0 +1,11 @@
+app-video-player {
+    /* Component styles go here */
+    div {
+        margin: 2rem;
+        display: flex;
+        justify-content: center;
+        ion-icon {
+            margin-left: 2rem;
+        }
+    }
+}

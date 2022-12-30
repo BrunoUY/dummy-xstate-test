@@ -7,7 +7,7 @@ const AppRoot = class {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("ion-app", null, h("ion-router", { useHash: false }, h("ion-route", { url: "/", component: "app-parent-component" })), h("ion-nav", null)));
+    return (h("ion-app", null, h("ion-router", { useHash: false }, h("ion-route", { url: "/", component: "app-parent-component" }), h("ion-route", { url: '/video-player', component: 'app-video-player' })), h("ion-nav", null)));
   }
 };
 AppRoot.style = appRootCss;

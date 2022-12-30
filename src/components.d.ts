@@ -14,6 +14,8 @@ export namespace Components {
     }
     interface AppRoot {
     }
+    interface AppVideoPlayer {
+    }
 }
 declare global {
     interface HTMLAppChildComponentElement extends Components.AppChildComponent, HTMLStencilElement {
@@ -40,11 +42,18 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
+    interface HTMLAppVideoPlayerElement extends Components.AppVideoPlayer, HTMLStencilElement {
+    }
+    var HTMLAppVideoPlayerElement: {
+        prototype: HTMLAppVideoPlayerElement;
+        new (): HTMLAppVideoPlayerElement;
+    };
     interface HTMLElementTagNameMap {
         "app-child-component": HTMLAppChildComponentElement;
         "app-forms": HTMLAppFormsElement;
         "app-parent-component": HTMLAppParentComponentElement;
         "app-root": HTMLAppRootElement;
+        "app-video-player": HTMLAppVideoPlayerElement;
     }
 }
 declare namespace LocalJSX {
@@ -56,11 +65,14 @@ declare namespace LocalJSX {
     }
     interface AppRoot {
     }
+    interface AppVideoPlayer {
+    }
     interface IntrinsicElements {
         "app-child-component": AppChildComponent;
         "app-forms": AppForms;
         "app-parent-component": AppParentComponent;
         "app-root": AppRoot;
+        "app-video-player": AppVideoPlayer;
     }
 }
 export { LocalJSX as JSX };
@@ -71,6 +83,7 @@ declare module "@stencil/core" {
             "app-forms": LocalJSX.AppForms & JSXBase.HTMLAttributes<HTMLAppFormsElement>;
             "app-parent-component": LocalJSX.AppParentComponent & JSXBase.HTMLAttributes<HTMLAppParentComponentElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "app-video-player": LocalJSX.AppVideoPlayer & JSXBase.HTMLAttributes<HTMLAppVideoPlayerElement>;
         }
     }
 }

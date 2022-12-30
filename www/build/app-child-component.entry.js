@@ -1,5 +1,5 @@
 import { r as registerInstance, h } from './index-136245cb.js';
-import { t as testHandleDataService } from './machines-438a9bba.js';
+import { t as testHandleDataService } from './machines-299b28aa.js';
 
 const appChildComponentCss = "app-child-component{}";
 
@@ -12,21 +12,13 @@ const AppChildComponent = class {
     testHandleDataService.subscribe(state => {
       this.state_machineTestHandleData = state;
     });
-<<<<<<< Updated upstream
-=======
-    this._machineTestHandleData.onTransition((state) => {
-      console.log(`Machine state changed: ${state.value}`);
-    });
   }
   componentDidRender() {
-    console.group('componentDidRender');
-    console.log(this.state_machineTestHandleData.value);
-    console.groupEnd();
->>>>>>> Stashed changes
+    console.log(this.state_machineTestHandleData.context);
   }
   render() {
     if (this.state_machineTestHandleData.matches('saved'))
-      return (h("div", null, h("p", null, this.state_machineTestHandleData.context.data)));
+      return (h("div", null, "data from:", h("p", null, this.state_machineTestHandleData.context.data)));
     else
       return h("div", null);
   }
