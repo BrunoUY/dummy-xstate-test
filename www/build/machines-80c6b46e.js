@@ -7474,81 +7474,118 @@ exports.toActivityDefinition = toActivityDefinition;
 const actions$1 = /*@__PURE__*/getDefaultExportFromCjs(actions);
 
 const machineVideoPlayer = 
-/** @xstate-layout N4IgpgJg5mDOIC5QAoBuBLCYD2ACADgDYCGAnmAE4CUAxAMoDSAkgAoDaADALqKj7ax0AF3TYAdrxAAPRAFoATAA4AnADoArOsXr56gCwBmdco57FAGhClE8gxuMcAjAcMB2F-IBse+QF9flmiYOAQk5NQ0ADJMDACinDxIIPyCIuKSMgjyTqpmenr6+p7K2q6ultYIso7aGt6KHIoGnq6OPl7+gRhYeERklLQAIkx00XEJkinCohJJmS6qrk2KBRyeKmsG5VZyjiX22nqu6gaORdqdIEE9of0RAKoAcmPx3JMC0+lzuwZ2zT41TyNNp6RwVXa1dT1RrNVrtTyXa4hPrhWgANQA8pF7gBZV6JPgfNKzUCZWQGbKqeRlTwnZyuLzKAzgqo1dR1MwwlpteQdAJXbrIsIDVSEbDECDoMRQKIYgCCg1igwmSSmxIycmydlcykcZy2RTMym2lTadg4jU82W5NWUJ0Rgt6wuoqhRUplLDl9zo+PeqRmGoQZ1cqjtBiZtlcemUnkcaxZznZx1aLRKRk8tIdwSddyoruIAFdYJAaCxInKAJoqwn+r6kxCOTx2OMcHW0ikrK3MnYIY4aRxecMxmqlPyXMTYLDwJJInOov2fEnSORbNSKJax9RR2NNI4s2TeVR64yKAdbrYrdRZm4okViiXuhfq75VX6OVTrxSb7c1FwmhtGIsBgrKY8g+Kevxjl02a3KirphI+qpEgGL7ku+hjOBwShDuoTjyAm+SqJuBR6BwJ4QQY15Crm+ZFpAT4ofWWRfosxxQryOhRl+CYnKGFKNgObIUoY-j+EAA */
+/** @xstate-layout N4IgpgJg5mDOIC5QDcCWEwHsAKAbAhgJ5gBOAdAA4HEkDEEmAdmGbAC75stoY7WmV+JANoAGALqJQFTLFRtUTKSAAeiAIzqA7GQCcAZgBMh3eoBsu46LMAWfQBoQhRDYCsADjKuzh1-veu6jbu6rpmZgC+EY48WHhEAlQJdADKANIAkthikkggMnIKSnlqCIY2omSG7rrWZq7ePq6iWo7OCPreeqJune7uZvqDrlEx6HFCgsm0ADIZaQCiOcoF8oqMyqWDZlWuWiHuovrq7kZmbRrNZGbuWqK6YYbh1cGjILF8yVM0tAAiGSk5otlnlVkUNiVEIZ1IYqrobFozFoGkEtOoPBcEOp9DobGZRK4TD4bgcRtF3uNPjRvqRaABBACq-wA8mQACoZACySwkK1ka2KoFKNmhZB6JN07mM6K08Mx6MqNzuD2JPncIreH3i1KSPwZADkgTzctJ+eDNoh1eovPUFT5LFocfKrkr7o9nur3JrKdrEpNcJh8BBUIwoLNmXTfgtfiDTYV1haOvsyEYQvohq4RQZXJi3DprL4EbURciCd7eL7yLqBCQwEHCLRY-kzQnIVjDJVbjYHpKjB2QoZMUj9HpQsdRIddGiBuWJl9q+Ra-XKPgAK6wSC0bAzOkATSbYNbQstLTIQWs+kldlCrScLhCVRq938xnhokM+lnVL9XyXEEI3whmG2CMikxp8vGgqqIgso7AEBjqloSHeD0mJ+Na+ymKEU4nJeZJjBWkzIJguCrgAtmAtAAGrMjMDLcgeLZQaUpw2GQNSIYSpzqjmd4ILUnamEYL6ZpeNhfpWZDEaRFFkKujBkauXAQNRtH0Qs7LMgA4lpMzgaCTEQseHQPm42LVJKsrmLomKSrCRxuCK0LVEEkTklqREkeRLCKcpql0dymk6XpjGQUZ0EmdaZmppZpgWLZPRkHcmghA8mYGLoUTkowmAYPAeQeckEECuFpSigYr7WVYtj6DYua6Ho+JcZmRZ+OEEmTAuxXmm2Fh6H2cWWB2NWYk8DUVL0wQ9IYSFHB187+oGwaht1R4Rb41pHDCwSZshPi5rKSU1OoojWCc5T7G5BFzjqkx-u0cYlYmDQ6E0753NC5ghJiOKuF4l4TjUpgDN44nuT6nV3XW-4ruukCrcxiC1A1ojouEpzaCq7i5jU7FaOUzRPEEnR4vNt2-tDAG6kBCOlYgTXXL473vpoNzqLmgxigDWHdkYqNkz+1IAGYhqgsAABbwwZYWJper0VD41iIvCTznHxSKVDYY5yztSGfuDhFfNJ3m04mHYNT4fNPHiDQzQ4fEhDoHYwidAz4vcWgC+QxuyfJvlS49PXGb4r0fh21v1ISt7tKYlT7GZYQDFOaJe1JXmyf7ECm22ewjsltVDNioQIrZ2KPm4ewnCd-NZUAA */
 createMachine({
+  id: "videoPlayer",
   predictableActionArguments: true,
   tsTypes: {},
-  initial: 'loading',
+  type: 'parallel',
   context: {
     title: '',
     artist: '',
     duration: 0,
     elapsed: 0,
     likeStatus: 'unliked',
-    volume: 0.5,
+    volume: 1,
   },
   states: {
-    loading: {
+    player: {
+      initial: 'loading',
+      states: {
+        loading: {
+          on: {
+            LOADED: {
+              actions: ['setSongData'],
+              target: '#videoPlayer.player.ready.history'
+            },
+          },
+        },
+        ready: {
+          initial: 'playing',
+          states: {
+            paused: {
+              on: {
+                PLAY: { target: '#videoPlayer.player.ready.playing' },
+              },
+            },
+            playing: {
+              entry: ['playAudio'],
+              exit: ['pauseAudio'],
+              on: {
+                PAUSE: { target: '#videoPlayer.player.ready.paused' },
+              },
+            },
+            history: {
+              type: 'history',
+              history: 'shallow',
+            },
+          },
+          always: {
+            cond: 'elapsedIsGreaterThanDuration',
+            target: '#videoPlayer.player.finished',
+          },
+        },
+        finished: {
+          type: 'final',
+        }
+      },
+      onDone: {
+        target: '#videoPlayer.player.loading',
+        actions(context, event, meta) {
+          console.log('onDone', context, event, meta);
+        },
+      },
       on: {
-        LOADED: {
-          actions: ['setSongData'],
-          // add an aciton to asing the song data
-          target: 'playing'
+        SKIP: {
+          actions: ['skipSong'],
+          target: '#videoPlayer.player.loading'
+        },
+        LIKE: {
+          actions: ['likeSong'],
+        },
+        DISLIKE: {
+          actions: ['dislikeSong', actions.raise({ type: 'SKIP' })],
+        },
+        'AUDIO.TIME': {
+          actions: ['assignTime'],
+        },
+        UNLIKE: {
+          // add an action to unlike the song
+          actions: ['unlikeSong'],
         },
       },
     },
-    playing: {
-      entry: ['playAudio'],
-      exit: ['pauseAudio'],
-      // when this state is entered, add an action to play the audio
-      // when this state is existed, add an action to pause the audio
-      on: {
-        PAUSE: {
-          target: 'paused'
+    volume: {
+      initial: 'unmuted',
+      states: {
+        unmuted: {
+          on: {
+            'VOLUME.TOGGLE': '#videoPlayer.volume.muted',
+          },
+        },
+        muted: {
+          on: {
+            'VOLUME.TOGGLE': '#videoPlayer.volume.unmuted',
+          },
         },
       },
-    },
-    paused: {
       on: {
-        PLAY: {
-          target: 'playing'
-        },
+        VOLUME: {
+          cond: 'volumeIsInRange',
+          actions: ['changeVolume'],
+        }
       },
     },
   },
-  on: {
-    SKIP: {
-      // add an action to skip the song
-      actions: ['skipSong'],
-      target: 'loading'
-    },
-    LIKE: {
-      // add an action to like the song
-      actions: ['likeSong'],
-    },
-    DISLIKE: {
-      // add an action to dislike the song,AND RAISE THE SKIP EVENT
-      actions: [
-        'dislikeSong',
-        actions.raise({ type: 'SKIP' })
-      ],
-    },
-    UNLIKE: {
-      // add an action to unlike the song
-      actions: ['unlikeSong'],
-    },
-    VOLUME: {
-      // add an action to change the volume
-      actions: ['changeVolume'],
-    },
-  },
-  id: "(video player)"
 }).withConfig({
   actions: {
+    assignTime: assign({
+    //elapsed: ( _, event: T_ArtistPayload ) => event.data.currentTime,
+    }),
     setSongData: assign({
-      title: (context, event) => event.data.title,
-      artist: (context, event) => event.data.artist,
-      duration: (context, event) => event.data.duration,
+      title: (_, event) => event.data.title,
+      artist: (_, event) => event.data.artist,
+      duration: (_, event) => event.data.duration,
       elapsed: 0,
       likeStatus: 'unliked',
     }),
@@ -7566,14 +7603,20 @@ createMachine({
     }),
     changeVolume: assign({
       volume: (context) => {
-        if (context.volume < 1) {
-          return context.volume + 0.1;
-        }
+        /* if ( context.volume < 10 ) {
+            return context.volume + 1;
+        } */
+        return 1;
       }
     }),
   },
+  guards: {
+    volumeIsInRange: (context) => context.volume >= 1 && context.volume <= 10,
+    elapsedIsGreaterThanDuration: (context) => context.elapsed > context.duration,
+  },
 });
 const serviceMachineVideoPlayer = fe(machineVideoPlayer, { devTools: true }).start();
+/********** */
 const machineDataSelection = 
 /** @xstate-layout N4IgpgJg5mDOIC5QQIYBcUGUwBswGM0BLAewDsA6WXA48gYgDEBJAGQBUBRAJQH0BBTJk7tMAbQAMAXUSgADiVhE6ZWSAAeiAGwSKAJgCcRgBwB2CcYAsAVj2W9egDQgAnogC01yxWN7jARntTAGYJAy1Qg0sAX2jnVAxsPEJSSmpklXphVk4AYXZeAHV+dlyACVZmTFFJGSQQBSUVNU0EHX0jAzMLGzsHZzcEd39-YIpQ4MCQyyjTf1MYuJAErBoU8io1zOy8gtyAeQA5dn5mQ55xaTVG5VSW7V1DE3MrW3snVw95-wpTUwDrP5wqYuhJgoslmQSBA4GoVklaHd6jdmvVWu5gtZfhIcf5DP4vKZrP8Bh5waYKHiAlo-KYtEDjMEtLF4uhVhlUpsOeRropbjy0Yg8R1nj03nogaShnprAYKDZJsT3hYDEyWcs2Qj1mktpyAO7ofAACxwRFgaFgjBIACcALa8ppI0CtPzePTBImBYLGAx4gwSaxS4bC3z+H1WAzWCT+CL+dXw3UbdKIjYAMyIODQYGtRDIUCtdod-NUgoQrv0HsBlm9vsMAaDXnGli0Pu9dKjdK0i1ZiUTOu5lHw5Awuezlpt9uRfNRzsQ5fdnurPr99c+Q2+HS0-smozeBlisSAA */
 createMachine({

@@ -5881,37 +5881,1735 @@ function fe(e, t) {
   return t != null && t.devTools && Z().register(s), s;
 }
 
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, basedir, module) {
+	return module = {
+		path: basedir,
+		exports: {},
+		require: function (path, base) {
+			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
+		}
+	}, fn(module, module.exports), module.exports;
+}
+
+function getDefaultExportFromNamespaceIfPresent (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') ? n['default'] : n;
+}
+
+function getDefaultExportFromNamespaceIfNotNamed (n) {
+	return n && Object.prototype.hasOwnProperty.call(n, 'default') && Object.keys(n).length === 1 ? n['default'] : n;
+}
+
+function getAugmentedNamespace(n) {
+	if (n.__esModule) return n;
+	var a = Object.defineProperty({}, '__esModule', {value: true});
+	Object.keys(n).forEach(function (k) {
+		var d = Object.getOwnPropertyDescriptor(n, k);
+		Object.defineProperty(a, k, d.get ? d : {
+			enumerable: true,
+			get: function () {
+				return n[k];
+			}
+		});
+	});
+	return a;
+}
+
+function commonjsRequire () {
+	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+}
+
+var _tslib = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+exports.__assign = function() {
+    exports.__assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return exports.__assign.apply(this, arguments);
+};
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+exports.__read = __read;
+exports.__rest = __rest;
+exports.__spreadArray = __spreadArray;
+exports.__values = __values;
+});
+
+const _tslib$1 = /*@__PURE__*/getDefaultExportFromCjs(_tslib);
+
+var types = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+exports.ActionTypes = void 0;
+
+(function (ActionTypes) {
+  ActionTypes["Start"] = "xstate.start";
+  ActionTypes["Stop"] = "xstate.stop";
+  ActionTypes["Raise"] = "xstate.raise";
+  ActionTypes["Send"] = "xstate.send";
+  ActionTypes["Cancel"] = "xstate.cancel";
+  ActionTypes["NullEvent"] = "";
+  ActionTypes["Assign"] = "xstate.assign";
+  ActionTypes["After"] = "xstate.after";
+  ActionTypes["DoneState"] = "done.state";
+  ActionTypes["DoneInvoke"] = "done.invoke";
+  ActionTypes["Log"] = "xstate.log";
+  ActionTypes["Init"] = "xstate.init";
+  ActionTypes["Invoke"] = "xstate.invoke";
+  ActionTypes["ErrorExecution"] = "error.execution";
+  ActionTypes["ErrorCommunication"] = "error.communication";
+  ActionTypes["ErrorPlatform"] = "error.platform";
+  ActionTypes["ErrorCustom"] = "xstate.error";
+  ActionTypes["Update"] = "xstate.update";
+  ActionTypes["Pure"] = "xstate.pure";
+  ActionTypes["Choose"] = "xstate.choose";
+})(exports.ActionTypes || (exports.ActionTypes = {}));
+
+exports.SpecialTargets = void 0;
+
+(function (SpecialTargets) {
+  SpecialTargets["Parent"] = "#_parent";
+  SpecialTargets["Internal"] = "#_internal";
+})(exports.SpecialTargets || (exports.SpecialTargets = {}));
+});
+
+const types$1 = /*@__PURE__*/getDefaultExportFromCjs(types);
+
+var actionTypes = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+
+
+var start = types.ActionTypes.Start;
+var stop = types.ActionTypes.Stop;
+var raise = types.ActionTypes.Raise;
+var send = types.ActionTypes.Send;
+var cancel = types.ActionTypes.Cancel;
+var nullEvent = types.ActionTypes.NullEvent;
+var assign = types.ActionTypes.Assign;
+var after = types.ActionTypes.After;
+var doneState = types.ActionTypes.DoneState;
+var log = types.ActionTypes.Log;
+var init = types.ActionTypes.Init;
+var invoke = types.ActionTypes.Invoke;
+var errorExecution = types.ActionTypes.ErrorExecution;
+var errorPlatform = types.ActionTypes.ErrorPlatform;
+var error = types.ActionTypes.ErrorCustom;
+var update = types.ActionTypes.Update;
+var choose = types.ActionTypes.Choose;
+var pure = types.ActionTypes.Pure;
+
+exports.after = after;
+exports.assign = assign;
+exports.cancel = cancel;
+exports.choose = choose;
+exports.doneState = doneState;
+exports.error = error;
+exports.errorExecution = errorExecution;
+exports.errorPlatform = errorPlatform;
+exports.init = init;
+exports.invoke = invoke;
+exports.log = log;
+exports.nullEvent = nullEvent;
+exports.pure = pure;
+exports.raise = raise;
+exports.send = send;
+exports.start = start;
+exports.stop = stop;
+exports.update = update;
+});
+
+const actionTypes$1 = /*@__PURE__*/getDefaultExportFromCjs(actionTypes);
+
+var constants = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var STATE_DELIMITER = '.';
+var EMPTY_ACTIVITY_MAP = {};
+var DEFAULT_GUARD_TYPE = 'xstate.guard';
+var TARGETLESS_KEY = '';
+
+exports.DEFAULT_GUARD_TYPE = DEFAULT_GUARD_TYPE;
+exports.EMPTY_ACTIVITY_MAP = EMPTY_ACTIVITY_MAP;
+exports.STATE_DELIMITER = STATE_DELIMITER;
+exports.TARGETLESS_KEY = TARGETLESS_KEY;
+});
+
+const constants$1 = /*@__PURE__*/getDefaultExportFromCjs(constants);
+
+var environment = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var IS_PRODUCTION = "development" === 'production';
+
+exports.IS_PRODUCTION = IS_PRODUCTION;
+});
+
+const environment$1 = /*@__PURE__*/getDefaultExportFromCjs(environment);
+
+var utils = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+
+
+
+
+var _a;
+function keys(value) {
+  return Object.keys(value);
+}
+function matchesState(parentStateId, childStateId, delimiter) {
+  if (delimiter === void 0) {
+    delimiter = constants.STATE_DELIMITER;
+  }
+
+  var parentStateValue = toStateValue(parentStateId, delimiter);
+  var childStateValue = toStateValue(childStateId, delimiter);
+
+  if (isString(childStateValue)) {
+    if (isString(parentStateValue)) {
+      return childStateValue === parentStateValue;
+    } // Parent more specific than child
+
+
+    return false;
+  }
+
+  if (isString(parentStateValue)) {
+    return parentStateValue in childStateValue;
+  }
+
+  return Object.keys(parentStateValue).every(function (key) {
+    if (!(key in childStateValue)) {
+      return false;
+    }
+
+    return matchesState(parentStateValue[key], childStateValue[key]);
+  });
+}
+function getEventType(event) {
+  try {
+    return isString(event) || typeof event === 'number' ? "".concat(event) : event.type;
+  } catch (e) {
+    throw new Error('Events must be strings or objects with a string event.type property.');
+  }
+}
+function getActionType(action) {
+  try {
+    return isString(action) || typeof action === 'number' ? "".concat(action) : isFunction(action) ? action.name : action.type;
+  } catch (e) {
+    throw new Error('Actions must be strings or objects with a string action.type property.');
+  }
+}
+function toStatePath(stateId, delimiter) {
+  try {
+    if (isArray(stateId)) {
+      return stateId;
+    }
+
+    return stateId.toString().split(delimiter);
+  } catch (e) {
+    throw new Error("'".concat(stateId, "' is not a valid state path."));
+  }
+}
+function isStateLike(state) {
+  return typeof state === 'object' && 'value' in state && 'context' in state && 'event' in state && '_event' in state;
+}
+function toStateValue(stateValue, delimiter) {
+  if (isStateLike(stateValue)) {
+    return stateValue.value;
+  }
+
+  if (isArray(stateValue)) {
+    return pathToStateValue(stateValue);
+  }
+
+  if (typeof stateValue !== 'string') {
+    return stateValue;
+  }
+
+  var statePath = toStatePath(stateValue, delimiter);
+  return pathToStateValue(statePath);
+}
+function pathToStateValue(statePath) {
+  if (statePath.length === 1) {
+    return statePath[0];
+  }
+
+  var value = {};
+  var marker = value;
+
+  for (var i = 0; i < statePath.length - 1; i++) {
+    if (i === statePath.length - 2) {
+      marker[statePath[i]] = statePath[i + 1];
+    } else {
+      marker[statePath[i]] = {};
+      marker = marker[statePath[i]];
+    }
+  }
+
+  return value;
+}
+function mapValues(collection, iteratee) {
+  var result = {};
+  var collectionKeys = Object.keys(collection);
+
+  for (var i = 0; i < collectionKeys.length; i++) {
+    var key = collectionKeys[i];
+    result[key] = iteratee(collection[key], key, collection, i);
+  }
+
+  return result;
+}
+function mapFilterValues(collection, iteratee, predicate) {
+  var e_1, _a;
+
+  var result = {};
+
+  try {
+    for (var _b = _tslib.__values(Object.keys(collection)), _c = _b.next(); !_c.done; _c = _b.next()) {
+      var key = _c.value;
+      var item = collection[key];
+
+      if (!predicate(item)) {
+        continue;
+      }
+
+      result[key] = iteratee(item, key, collection);
+    }
+  } catch (e_1_1) {
+    e_1 = {
+      error: e_1_1
+    };
+  } finally {
+    try {
+      if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+    } finally {
+      if (e_1) throw e_1.error;
+    }
+  }
+
+  return result;
+}
+/**
+ * Retrieves a value at the given path.
+ * @param props The deep path to the prop of the desired value
+ */
+
+var path = function (props) {
+  return function (object) {
+    var e_2, _a;
+
+    var result = object;
+
+    try {
+      for (var props_1 = _tslib.__values(props), props_1_1 = props_1.next(); !props_1_1.done; props_1_1 = props_1.next()) {
+        var prop = props_1_1.value;
+        result = result[prop];
+      }
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
+      };
+    } finally {
+      try {
+        if (props_1_1 && !props_1_1.done && (_a = props_1.return)) _a.call(props_1);
+      } finally {
+        if (e_2) throw e_2.error;
+      }
+    }
+
+    return result;
+  };
+};
+/**
+ * Retrieves a value at the given path via the nested accessor prop.
+ * @param props The deep path to the prop of the desired value
+ */
+
+function nestedPath(props, accessorProp) {
+  return function (object) {
+    var e_3, _a;
+
+    var result = object;
+
+    try {
+      for (var props_2 = _tslib.__values(props), props_2_1 = props_2.next(); !props_2_1.done; props_2_1 = props_2.next()) {
+        var prop = props_2_1.value;
+        result = result[accessorProp][prop];
+      }
+    } catch (e_3_1) {
+      e_3 = {
+        error: e_3_1
+      };
+    } finally {
+      try {
+        if (props_2_1 && !props_2_1.done && (_a = props_2.return)) _a.call(props_2);
+      } finally {
+        if (e_3) throw e_3.error;
+      }
+    }
+
+    return result;
+  };
+}
+function toStatePaths(stateValue) {
+  if (!stateValue) {
+    return [[]];
+  }
+
+  if (isString(stateValue)) {
+    return [[stateValue]];
+  }
+
+  var result = flatten(Object.keys(stateValue).map(function (key) {
+    var subStateValue = stateValue[key];
+
+    if (typeof subStateValue !== 'string' && (!subStateValue || !Object.keys(subStateValue).length)) {
+      return [[key]];
+    }
+
+    return toStatePaths(stateValue[key]).map(function (subPath) {
+      return [key].concat(subPath);
+    });
+  }));
+  return result;
+}
+function pathsToStateValue(paths) {
+  var e_4, _a;
+
+  var result = {};
+
+  if (paths && paths.length === 1 && paths[0].length === 1) {
+    return paths[0][0];
+  }
+
+  try {
+    for (var paths_1 = _tslib.__values(paths), paths_1_1 = paths_1.next(); !paths_1_1.done; paths_1_1 = paths_1.next()) {
+      var currentPath = paths_1_1.value;
+      var marker = result; // tslint:disable-next-line:prefer-for-of
+
+      for (var i = 0; i < currentPath.length; i++) {
+        var subPath = currentPath[i];
+
+        if (i === currentPath.length - 2) {
+          marker[subPath] = currentPath[i + 1];
+          break;
+        }
+
+        marker[subPath] = marker[subPath] || {};
+        marker = marker[subPath];
+      }
+    }
+  } catch (e_4_1) {
+    e_4 = {
+      error: e_4_1
+    };
+  } finally {
+    try {
+      if (paths_1_1 && !paths_1_1.done && (_a = paths_1.return)) _a.call(paths_1);
+    } finally {
+      if (e_4) throw e_4.error;
+    }
+  }
+
+  return result;
+}
+function flatten(array) {
+  var _a;
+
+  return (_a = []).concat.apply(_a, _tslib.__spreadArray([], _tslib.__read(array), false));
+}
+function toArrayStrict(value) {
+  if (isArray(value)) {
+    return value;
+  }
+
+  return [value];
+}
+function toArray(value) {
+  if (value === undefined) {
+    return [];
+  }
+
+  return toArrayStrict(value);
+}
+function mapContext(mapper, context, _event) {
+  var e_5, _a;
+
+  if (isFunction(mapper)) {
+    return mapper(context, _event.data);
+  }
+
+  var result = {};
+
+  try {
+    for (var _b = _tslib.__values(Object.keys(mapper)), _c = _b.next(); !_c.done; _c = _b.next()) {
+      var key = _c.value;
+      var subMapper = mapper[key];
+
+      if (isFunction(subMapper)) {
+        result[key] = subMapper(context, _event.data);
+      } else {
+        result[key] = subMapper;
+      }
+    }
+  } catch (e_5_1) {
+    e_5 = {
+      error: e_5_1
+    };
+  } finally {
+    try {
+      if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+    } finally {
+      if (e_5) throw e_5.error;
+    }
+  }
+
+  return result;
+}
+function isBuiltInEvent(eventType) {
+  return /^(done|error)\./.test(eventType);
+}
+function isPromiseLike(value) {
+  if (value instanceof Promise) {
+    return true;
+  } // Check if shape matches the Promise/A+ specification for a "thenable".
+
+
+  if (value !== null && (isFunction(value) || typeof value === 'object') && isFunction(value.then)) {
+    return true;
+  }
+
+  return false;
+}
+function isBehavior(value) {
+  return value !== null && typeof value === 'object' && 'transition' in value && typeof value.transition === 'function';
+}
+function partition(items, predicate) {
+  var e_6, _a;
+
+  var _b = _tslib.__read([[], []], 2),
+      truthy = _b[0],
+      falsy = _b[1];
+
+  try {
+    for (var items_1 = _tslib.__values(items), items_1_1 = items_1.next(); !items_1_1.done; items_1_1 = items_1.next()) {
+      var item = items_1_1.value;
+
+      if (predicate(item)) {
+        truthy.push(item);
+      } else {
+        falsy.push(item);
+      }
+    }
+  } catch (e_6_1) {
+    e_6 = {
+      error: e_6_1
+    };
+  } finally {
+    try {
+      if (items_1_1 && !items_1_1.done && (_a = items_1.return)) _a.call(items_1);
+    } finally {
+      if (e_6) throw e_6.error;
+    }
+  }
+
+  return [truthy, falsy];
+}
+function updateHistoryStates(hist, stateValue) {
+  return mapValues(hist.states, function (subHist, key) {
+    if (!subHist) {
+      return undefined;
+    }
+
+    var subStateValue = (isString(stateValue) ? undefined : stateValue[key]) || (subHist ? subHist.current : undefined);
+
+    if (!subStateValue) {
+      return undefined;
+    }
+
+    return {
+      current: subStateValue,
+      states: updateHistoryStates(subHist, subStateValue)
+    };
+  });
+}
+function updateHistoryValue(hist, stateValue) {
+  return {
+    current: stateValue,
+    states: updateHistoryStates(hist, stateValue)
+  };
+}
+function updateContext(context, _event, assignActions, state) {
+  if (!environment.IS_PRODUCTION) {
+    exports.warn(!!context, 'Attempting to update undefined context');
+  }
+
+  var updatedContext = context ? assignActions.reduce(function (acc, assignAction) {
+    var e_7, _a;
+
+    var assignment = assignAction.assignment;
+    var meta = {
+      state: state,
+      action: assignAction,
+      _event: _event
+    };
+    var partialUpdate = {};
+
+    if (isFunction(assignment)) {
+      partialUpdate = assignment(acc, _event.data, meta);
+    } else {
+      try {
+        for (var _b = _tslib.__values(Object.keys(assignment)), _c = _b.next(); !_c.done; _c = _b.next()) {
+          var key = _c.value;
+          var propAssignment = assignment[key];
+          partialUpdate[key] = isFunction(propAssignment) ? propAssignment(acc, _event.data, meta) : propAssignment;
+        }
+      } catch (e_7_1) {
+        e_7 = {
+          error: e_7_1
+        };
+      } finally {
+        try {
+          if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        } finally {
+          if (e_7) throw e_7.error;
+        }
+      }
+    }
+
+    return Object.assign({}, acc, partialUpdate);
+  }, context) : context;
+  return updatedContext;
+} // tslint:disable-next-line:no-empty
+
+exports.warn = function () {};
+
+if (!environment.IS_PRODUCTION) {
+  exports.warn = function (condition, message) {
+    var error = condition instanceof Error ? condition : undefined;
+
+    if (!error && condition) {
+      return;
+    }
+
+    if (console !== undefined) {
+      var args = ["Warning: ".concat(message)];
+
+      if (error) {
+        args.push(error);
+      } // tslint:disable-next-line:no-console
+
+
+      console.warn.apply(console, args);
+    }
+  };
+}
+function isArray(value) {
+  return Array.isArray(value);
+} // tslint:disable-next-line:ban-types
+
+function isFunction(value) {
+  return typeof value === 'function';
+}
+function isString(value) {
+  return typeof value === 'string';
+}
+function toGuard(condition, guardMap) {
+  if (!condition) {
+    return undefined;
+  }
+
+  if (isString(condition)) {
+    return {
+      type: constants.DEFAULT_GUARD_TYPE,
+      name: condition,
+      predicate: guardMap ? guardMap[condition] : undefined
+    };
+  }
+
+  if (isFunction(condition)) {
+    return {
+      type: constants.DEFAULT_GUARD_TYPE,
+      name: condition.name,
+      predicate: condition
+    };
+  }
+
+  return condition;
+}
+function isObservable(value) {
+  try {
+    return 'subscribe' in value && isFunction(value.subscribe);
+  } catch (e) {
+    return false;
+  }
+}
+var symbolObservable = /*#__PURE__*/function () {
+  return typeof Symbol === 'function' && Symbol.observable || '@@observable';
+}(); // TODO: to be removed in v5, left it out just to minimize the scope of the change and maintain compatibility with older versions of integration paackages
+
+var interopSymbols = (_a = {}, _a[symbolObservable] = function () {
+  return this;
+}, _a[Symbol.observable] = function () {
+  return this;
+}, _a);
+function isMachine(value) {
+  return !!value && '__xstatenode' in value;
+}
+function isActor(value) {
+  return !!value && typeof value.send === 'function';
+}
+var uniqueId = /*#__PURE__*/function () {
+  var currentId = 0;
+  return function () {
+    currentId++;
+    return currentId.toString(16);
+  };
+}();
+function toEventObject(event, payload // id?: TEvent['type']
+) {
+  if (isString(event) || typeof event === 'number') {
+    return _tslib.__assign({
+      type: event
+    }, payload);
+  }
+
+  return event;
+}
+function toSCXMLEvent(event, scxmlEvent) {
+  if (!isString(event) && '$$type' in event && event.$$type === 'scxml') {
+    return event;
+  }
+
+  var eventObject = toEventObject(event);
+  return _tslib.__assign({
+    name: eventObject.type,
+    data: eventObject,
+    $$type: 'scxml',
+    type: 'external'
+  }, scxmlEvent);
+}
+function toTransitionConfigArray(event, configLike) {
+  var transitions = toArrayStrict(configLike).map(function (transitionLike) {
+    if (typeof transitionLike === 'undefined' || typeof transitionLike === 'string' || isMachine(transitionLike)) {
+      return {
+        target: transitionLike,
+        event: event
+      };
+    }
+
+    return _tslib.__assign(_tslib.__assign({}, transitionLike), {
+      event: event
+    });
+  });
+  return transitions;
+}
+function normalizeTarget(target) {
+  if (target === undefined || target === constants.TARGETLESS_KEY) {
+    return undefined;
+  }
+
+  return toArray(target);
+}
+function reportUnhandledExceptionOnInvocation(originalError, currentError, id) {
+  if (!environment.IS_PRODUCTION) {
+    var originalStackTrace = originalError.stack ? " Stacktrace was '".concat(originalError.stack, "'") : '';
+
+    if (originalError === currentError) {
+      // tslint:disable-next-line:no-console
+      console.error("Missing onError handler for invocation '".concat(id, "', error was '").concat(originalError, "'.").concat(originalStackTrace));
+    } else {
+      var stackTrace = currentError.stack ? " Stacktrace was '".concat(currentError.stack, "'") : ''; // tslint:disable-next-line:no-console
+
+      console.error("Missing onError handler and/or unhandled exception/promise rejection for invocation '".concat(id, "'. ") + "Original error: '".concat(originalError, "'. ").concat(originalStackTrace, " Current error is '").concat(currentError, "'.").concat(stackTrace));
+    }
+  }
+}
+function evaluateGuard(machine, guard, context, _event, state) {
+  var guards = machine.options.guards;
+  var guardMeta = {
+    state: state,
+    cond: guard,
+    _event: _event
+  }; // TODO: do not hardcode!
+
+  if (guard.type === constants.DEFAULT_GUARD_TYPE) {
+    return ((guards === null || guards === void 0 ? void 0 : guards[guard.name]) || guard.predicate)(context, _event.data, guardMeta);
+  }
+
+  var condFn = guards === null || guards === void 0 ? void 0 : guards[guard.type];
+
+  if (!condFn) {
+    throw new Error("Guard '".concat(guard.type, "' is not implemented on machine '").concat(machine.id, "'."));
+  }
+
+  return condFn(context, _event.data, guardMeta);
+}
+function toInvokeSource(src) {
+  if (typeof src === 'string') {
+    return {
+      type: src
+    };
+  }
+
+  return src;
+}
+function toObserver(nextHandler, errorHandler, completionHandler) {
+  var noop = function () {};
+
+  var isObserver = typeof nextHandler === 'object';
+  var self = isObserver ? nextHandler : null;
+  return {
+    next: ((isObserver ? nextHandler.next : nextHandler) || noop).bind(self),
+    error: ((isObserver ? nextHandler.error : errorHandler) || noop).bind(self),
+    complete: ((isObserver ? nextHandler.complete : completionHandler) || noop).bind(self)
+  };
+}
+function createInvokeId(stateNodeId, index) {
+  return "".concat(stateNodeId, ":invocation[").concat(index, "]");
+}
+
+exports.createInvokeId = createInvokeId;
+exports.evaluateGuard = evaluateGuard;
+exports.flatten = flatten;
+exports.getActionType = getActionType;
+exports.getEventType = getEventType;
+exports.interopSymbols = interopSymbols;
+exports.isActor = isActor;
+exports.isArray = isArray;
+exports.isBehavior = isBehavior;
+exports.isBuiltInEvent = isBuiltInEvent;
+exports.isFunction = isFunction;
+exports.isMachine = isMachine;
+exports.isObservable = isObservable;
+exports.isPromiseLike = isPromiseLike;
+exports.isStateLike = isStateLike;
+exports.isString = isString;
+exports.keys = keys;
+exports.mapContext = mapContext;
+exports.mapFilterValues = mapFilterValues;
+exports.mapValues = mapValues;
+exports.matchesState = matchesState;
+exports.nestedPath = nestedPath;
+exports.normalizeTarget = normalizeTarget;
+exports.partition = partition;
+exports.path = path;
+exports.pathToStateValue = pathToStateValue;
+exports.pathsToStateValue = pathsToStateValue;
+exports.reportUnhandledExceptionOnInvocation = reportUnhandledExceptionOnInvocation;
+exports.symbolObservable = symbolObservable;
+exports.toArray = toArray;
+exports.toArrayStrict = toArrayStrict;
+exports.toEventObject = toEventObject;
+exports.toGuard = toGuard;
+exports.toInvokeSource = toInvokeSource;
+exports.toObserver = toObserver;
+exports.toSCXMLEvent = toSCXMLEvent;
+exports.toStatePath = toStatePath;
+exports.toStatePaths = toStatePaths;
+exports.toStateValue = toStateValue;
+exports.toTransitionConfigArray = toTransitionConfigArray;
+exports.uniqueId = uniqueId;
+exports.updateContext = updateContext;
+exports.updateHistoryStates = updateHistoryStates;
+exports.updateHistoryValue = updateHistoryValue;
+});
+
+const utils$1 = /*@__PURE__*/getDefaultExportFromCjs(utils);
+
+var actions = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+
+
+
+
+
+
+var initEvent = /*#__PURE__*/utils.toSCXMLEvent({
+  type: actionTypes.init
+});
+function getActionFunction(actionType, actionFunctionMap) {
+  return actionFunctionMap ? actionFunctionMap[actionType] || undefined : undefined;
+}
+function toActionObject(action, actionFunctionMap) {
+  var actionObject;
+
+  if (utils.isString(action) || typeof action === 'number') {
+    var exec = getActionFunction(action, actionFunctionMap);
+
+    if (utils.isFunction(exec)) {
+      actionObject = {
+        type: action,
+        exec: exec
+      };
+    } else if (exec) {
+      actionObject = exec;
+    } else {
+      actionObject = {
+        type: action,
+        exec: undefined
+      };
+    }
+  } else if (utils.isFunction(action)) {
+    actionObject = {
+      // Convert action to string if unnamed
+      type: action.name || action.toString(),
+      exec: action
+    };
+  } else {
+    var exec = getActionFunction(action.type, actionFunctionMap);
+
+    if (utils.isFunction(exec)) {
+      actionObject = _tslib.__assign(_tslib.__assign({}, action), {
+        exec: exec
+      });
+    } else if (exec) {
+      var actionType = exec.type || action.type;
+      actionObject = _tslib.__assign(_tslib.__assign(_tslib.__assign({}, exec), action), {
+        type: actionType
+      });
+    } else {
+      actionObject = action;
+    }
+  }
+
+  return actionObject;
+}
+var toActionObjects = function (action, actionFunctionMap) {
+  if (!action) {
+    return [];
+  }
+
+  var actions = utils.isArray(action) ? action : [action];
+  return actions.map(function (subAction) {
+    return toActionObject(subAction, actionFunctionMap);
+  });
+};
+function toActivityDefinition(action) {
+  var actionObject = toActionObject(action);
+  return _tslib.__assign(_tslib.__assign({
+    id: utils.isString(action) ? action : actionObject.id
+  }, actionObject), {
+    type: actionObject.type
+  });
+}
+/**
+ * Raises an event. This places the event in the internal event queue, so that
+ * the event is immediately consumed by the machine in the current step.
+ *
+ * @param eventType The event to raise.
+ */
+
+function raise(event) {
+  if (!utils.isString(event)) {
+    return send(event, {
+      to: types.SpecialTargets.Internal
+    });
+  }
+
+  return {
+    type: actionTypes.raise,
+    event: event
+  };
+}
+function resolveRaise(action) {
+  return {
+    type: actionTypes.raise,
+    _event: utils.toSCXMLEvent(action.event)
+  };
+}
+/**
+ * Sends an event. This returns an action that will be read by an interpreter to
+ * send the event in the next step, after the current step is finished executing.
+ *
+ * @param event The event to send.
+ * @param options Options to pass into the send event:
+ *  - `id` - The unique send event identifier (used with `cancel()`).
+ *  - `delay` - The number of milliseconds to delay the sending of the event.
+ *  - `to` - The target of this event (by default, the machine the event was sent from).
+ */
+
+function send(event, options) {
+  return {
+    to: options ? options.to : undefined,
+    type: actionTypes.send,
+    event: utils.isFunction(event) ? event : utils.toEventObject(event),
+    delay: options ? options.delay : undefined,
+    id: options && options.id !== undefined ? options.id : utils.isFunction(event) ? event.name : utils.getEventType(event)
+  };
+}
+function resolveSend(action, ctx, _event, delaysMap) {
+  var meta = {
+    _event: _event
+  }; // TODO: helper function for resolving Expr
+
+  var resolvedEvent = utils.toSCXMLEvent(utils.isFunction(action.event) ? action.event(ctx, _event.data, meta) : action.event);
+  var resolvedDelay;
+
+  if (utils.isString(action.delay)) {
+    var configDelay = delaysMap && delaysMap[action.delay];
+    resolvedDelay = utils.isFunction(configDelay) ? configDelay(ctx, _event.data, meta) : configDelay;
+  } else {
+    resolvedDelay = utils.isFunction(action.delay) ? action.delay(ctx, _event.data, meta) : action.delay;
+  }
+
+  var resolvedTarget = utils.isFunction(action.to) ? action.to(ctx, _event.data, meta) : action.to;
+  return _tslib.__assign(_tslib.__assign({}, action), {
+    to: resolvedTarget,
+    _event: resolvedEvent,
+    event: resolvedEvent.data,
+    delay: resolvedDelay
+  });
+}
+/**
+ * Sends an event to this machine's parent.
+ *
+ * @param event The event to send to the parent machine.
+ * @param options Options to pass into the send event.
+ */
+
+function sendParent(event, options) {
+  return send(event, _tslib.__assign(_tslib.__assign({}, options), {
+    to: types.SpecialTargets.Parent
+  }));
+}
+/**
+ * Sends an event to an actor.
+ *
+ * @param actor The `ActorRef` to send the event to.
+ * @param event The event to send, or an expression that evaluates to the event to send
+ * @param options Send action options
+ * @returns An XState send action object
+ */
+
+function sendTo(actor, event, options) {
+  return send(event, _tslib.__assign(_tslib.__assign({}, options), {
+    to: actor
+  }));
+}
+/**
+ * Sends an update event to this machine's parent.
+ */
+
+function sendUpdate() {
+  return sendParent(actionTypes.update);
+}
+/**
+ * Sends an event back to the sender of the original event.
+ *
+ * @param event The event to send back to the sender
+ * @param options Options to pass into the send event
+ */
+
+function respond(event, options) {
+  return send(event, _tslib.__assign(_tslib.__assign({}, options), {
+    to: function (_, __, _a) {
+      var _event = _a._event;
+      return _event.origin; // TODO: handle when _event.origin is undefined
+    }
+  }));
+}
+
+var defaultLogExpr = function (context, event) {
+  return {
+    context: context,
+    event: event
+  };
+};
+/**
+ *
+ * @param expr The expression function to evaluate which will be logged.
+ *  Takes in 2 arguments:
+ *  - `ctx` - the current state context
+ *  - `event` - the event that caused this action to be executed.
+ * @param label The label to give to the logged expression.
+ */
+
+
+function log(expr, label) {
+  if (expr === void 0) {
+    expr = defaultLogExpr;
+  }
+
+  return {
+    type: actionTypes.log,
+    label: label,
+    expr: expr
+  };
+}
+var resolveLog = function (action, ctx, _event) {
+  return _tslib.__assign(_tslib.__assign({}, action), {
+    value: utils.isString(action.expr) ? action.expr : action.expr(ctx, _event.data, {
+      _event: _event
+    })
+  });
+};
+/**
+ * Cancels an in-flight `send(...)` action. A canceled sent action will not
+ * be executed, nor will its event be sent, unless it has already been sent
+ * (e.g., if `cancel(...)` is called after the `send(...)` action's `delay`).
+ *
+ * @param sendId The `id` of the `send(...)` action to cancel.
+ */
+
+var cancel = function (sendId) {
+  return {
+    type: actionTypes.cancel,
+    sendId: sendId
+  };
+};
+/**
+ * Starts an activity.
+ *
+ * @param activity The activity to start.
+ */
+
+function start(activity) {
+  var activityDef = toActivityDefinition(activity);
+  return {
+    type: types.ActionTypes.Start,
+    activity: activityDef,
+    exec: undefined
+  };
+}
+/**
+ * Stops an activity.
+ *
+ * @param actorRef The activity to stop.
+ */
+
+function stop(actorRef) {
+  var activity = utils.isFunction(actorRef) ? actorRef : toActivityDefinition(actorRef);
+  return {
+    type: types.ActionTypes.Stop,
+    activity: activity,
+    exec: undefined
+  };
+}
+function resolveStop(action, context, _event) {
+  var actorRefOrString = utils.isFunction(action.activity) ? action.activity(context, _event.data) : action.activity;
+  var resolvedActorRef = typeof actorRefOrString === 'string' ? {
+    id: actorRefOrString
+  } : actorRefOrString;
+  var actionObject = {
+    type: types.ActionTypes.Stop,
+    activity: resolvedActorRef
+  };
+  return actionObject;
+}
+/**
+ * Updates the current context of the machine.
+ *
+ * @param assignment An object that represents the partial context to update.
+ */
+
+var assign = function (assignment) {
+  return {
+    type: actionTypes.assign,
+    assignment: assignment
+  };
+};
+function isActionObject(action) {
+  return typeof action === 'object' && 'type' in action;
+}
+/**
+ * Returns an event type that represents an implicit event that
+ * is sent after the specified `delay`.
+ *
+ * @param delayRef The delay in milliseconds
+ * @param id The state node ID where this event is handled
+ */
+
+function after(delayRef, id) {
+  var idSuffix = id ? "#".concat(id) : '';
+  return "".concat(types.ActionTypes.After, "(").concat(delayRef, ")").concat(idSuffix);
+}
+/**
+ * Returns an event that represents that a final state node
+ * has been reached in the parent state node.
+ *
+ * @param id The final state node's parent state node `id`
+ * @param data The data to pass into the event
+ */
+
+function done(id, data) {
+  var type = "".concat(types.ActionTypes.DoneState, ".").concat(id);
+  var eventObject = {
+    type: type,
+    data: data
+  };
+
+  eventObject.toString = function () {
+    return type;
+  };
+
+  return eventObject;
+}
+/**
+ * Returns an event that represents that an invoked service has terminated.
+ *
+ * An invoked service is terminated when it has reached a top-level final state node,
+ * but not when it is canceled.
+ *
+ * @param id The final state node ID
+ * @param data The data to pass into the event
+ */
+
+function doneInvoke(id, data) {
+  var type = "".concat(types.ActionTypes.DoneInvoke, ".").concat(id);
+  var eventObject = {
+    type: type,
+    data: data
+  };
+
+  eventObject.toString = function () {
+    return type;
+  };
+
+  return eventObject;
+}
+function error(id, data) {
+  var type = "".concat(types.ActionTypes.ErrorPlatform, ".").concat(id);
+  var eventObject = {
+    type: type,
+    data: data
+  };
+
+  eventObject.toString = function () {
+    return type;
+  };
+
+  return eventObject;
+}
+function pure(getActions) {
+  return {
+    type: types.ActionTypes.Pure,
+    get: getActions
+  };
+}
+/**
+ * Forwards (sends) an event to a specified service.
+ *
+ * @param target The target service to forward the event to.
+ * @param options Options to pass into the send action creator.
+ */
+
+function forwardTo(target, options) {
+  if (!environment.IS_PRODUCTION && (!target || typeof target === 'function')) {
+    var originalTarget_1 = target;
+
+    target = function () {
+      var args = [];
+
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+      }
+
+      var resolvedTarget = typeof originalTarget_1 === 'function' ? originalTarget_1.apply(void 0, _tslib.__spreadArray([], _tslib.__read(args), false)) : originalTarget_1;
+
+      if (!resolvedTarget) {
+        throw new Error("Attempted to forward event to undefined actor. This risks an infinite loop in the sender.");
+      }
+
+      return resolvedTarget;
+    };
+  }
+
+  return send(function (_, event) {
+    return event;
+  }, _tslib.__assign(_tslib.__assign({}, options), {
+    to: target
+  }));
+}
+/**
+ * Escalates an error by sending it as an event to this machine's parent.
+ *
+ * @param errorData The error data to send, or the expression function that
+ * takes in the `context`, `event`, and `meta`, and returns the error data to send.
+ * @param options Options to pass into the send action creator.
+ */
+
+function escalate(errorData, options) {
+  return sendParent(function (context, event, meta) {
+    return {
+      type: actionTypes.error,
+      data: utils.isFunction(errorData) ? errorData(context, event, meta) : errorData
+    };
+  }, _tslib.__assign(_tslib.__assign({}, options), {
+    to: types.SpecialTargets.Parent
+  }));
+}
+function choose(conds) {
+  return {
+    type: types.ActionTypes.Choose,
+    conds: conds
+  };
+}
+
+var pluckAssigns = function (actionBlocks) {
+  var e_1, _a;
+
+  var assignActions = [];
+
+  try {
+    for (var actionBlocks_1 = _tslib.__values(actionBlocks), actionBlocks_1_1 = actionBlocks_1.next(); !actionBlocks_1_1.done; actionBlocks_1_1 = actionBlocks_1.next()) {
+      var block = actionBlocks_1_1.value;
+      var i = 0;
+
+      while (i < block.actions.length) {
+        if (block.actions[i].type === actionTypes.assign) {
+          assignActions.push(block.actions[i]);
+          block.actions.splice(i, 1);
+          continue;
+        }
+
+        i++;
+      }
+    }
+  } catch (e_1_1) {
+    e_1 = {
+      error: e_1_1
+    };
+  } finally {
+    try {
+      if (actionBlocks_1_1 && !actionBlocks_1_1.done && (_a = actionBlocks_1.return)) _a.call(actionBlocks_1);
+    } finally {
+      if (e_1) throw e_1.error;
+    }
+  }
+
+  return assignActions;
+};
+
+function resolveActions(machine, currentState, currentContext, _event, actionBlocks, predictableExec, preserveActionOrder) {
+  if (preserveActionOrder === void 0) {
+    preserveActionOrder = false;
+  }
+
+  var assignActions = preserveActionOrder ? [] : pluckAssigns(actionBlocks);
+  var updatedContext = assignActions.length ? utils.updateContext(currentContext, _event, assignActions, currentState) : currentContext;
+  var preservedContexts = preserveActionOrder ? [currentContext] : undefined;
+  var deferredToBlockEnd = [];
+
+  function handleAction(blockType, actionObject) {
+    var _a;
+
+    switch (actionObject.type) {
+      case actionTypes.raise:
+        {
+          return resolveRaise(actionObject);
+        }
+
+      case actionTypes.send:
+        var sendAction = resolveSend(actionObject, updatedContext, _event, machine.options.delays); // TODO: fix ActionTypes.Init
+
+        if (!environment.IS_PRODUCTION) {
+          // warn after resolving as we can create better contextual message here
+          utils.warn(!utils.isString(actionObject.delay) || typeof sendAction.delay === 'number', // tslint:disable-next-line:max-line-length
+          "No delay reference for delay expression '".concat(actionObject.delay, "' was found on machine '").concat(machine.id, "'"));
+        }
+
+        if (predictableExec && sendAction.to !== types.SpecialTargets.Internal) {
+          if (blockType === 'entry') {
+            deferredToBlockEnd.push(sendAction);
+          } else {
+            predictableExec === null || predictableExec === void 0 ? void 0 : predictableExec(sendAction, updatedContext, _event);
+          }
+        }
+
+        return sendAction;
+
+      case actionTypes.log:
+        {
+          var resolved = resolveLog(actionObject, updatedContext, _event);
+          predictableExec === null || predictableExec === void 0 ? void 0 : predictableExec(resolved, updatedContext, _event);
+          return resolved;
+        }
+
+      case actionTypes.choose:
+        {
+          var chooseAction = actionObject;
+          var matchedActions = (_a = chooseAction.conds.find(function (condition) {
+            var guard = utils.toGuard(condition.cond, machine.options.guards);
+            return !guard || utils.evaluateGuard(machine, guard, updatedContext, _event, !predictableExec ? currentState : undefined);
+          })) === null || _a === void 0 ? void 0 : _a.actions;
+
+          if (!matchedActions) {
+            return [];
+          }
+
+          var _b = _tslib.__read(resolveActions(machine, currentState, updatedContext, _event, [{
+            type: blockType,
+            actions: toActionObjects(utils.toArray(matchedActions), machine.options.actions)
+          }], predictableExec, preserveActionOrder), 2),
+              resolvedActionsFromChoose = _b[0],
+              resolvedContextFromChoose = _b[1];
+
+          updatedContext = resolvedContextFromChoose;
+          preservedContexts === null || preservedContexts === void 0 ? void 0 : preservedContexts.push(updatedContext);
+          return resolvedActionsFromChoose;
+        }
+
+      case actionTypes.pure:
+        {
+          var matchedActions = actionObject.get(updatedContext, _event.data);
+
+          if (!matchedActions) {
+            return [];
+          }
+
+          var _c = _tslib.__read(resolveActions(machine, currentState, updatedContext, _event, [{
+            type: blockType,
+            actions: toActionObjects(utils.toArray(matchedActions), machine.options.actions)
+          }], predictableExec, preserveActionOrder), 2),
+              resolvedActionsFromPure = _c[0],
+              resolvedContext = _c[1];
+
+          updatedContext = resolvedContext;
+          preservedContexts === null || preservedContexts === void 0 ? void 0 : preservedContexts.push(updatedContext);
+          return resolvedActionsFromPure;
+        }
+
+      case actionTypes.stop:
+        {
+          var resolved = resolveStop(actionObject, updatedContext, _event);
+          predictableExec === null || predictableExec === void 0 ? void 0 : predictableExec(resolved, currentContext, _event);
+          return resolved;
+        }
+
+      case actionTypes.assign:
+        {
+          updatedContext = utils.updateContext(updatedContext, _event, [actionObject], !predictableExec ? currentState : undefined);
+          preservedContexts === null || preservedContexts === void 0 ? void 0 : preservedContexts.push(updatedContext);
+          break;
+        }
+
+      default:
+        var resolvedActionObject = toActionObject(actionObject, machine.options.actions);
+        var exec_1 = resolvedActionObject.exec;
+
+        if (predictableExec) {
+          predictableExec(resolvedActionObject, updatedContext, _event);
+        } else if (exec_1 && preservedContexts) {
+          var contextIndex_1 = preservedContexts.length - 1;
+          resolvedActionObject = _tslib.__assign(_tslib.__assign({}, resolvedActionObject), {
+            exec: function (_ctx) {
+              var args = [];
+
+              for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+              }
+
+              exec_1.apply(void 0, _tslib.__spreadArray([preservedContexts[contextIndex_1]], _tslib.__read(args), false));
+            }
+          });
+        }
+
+        return resolvedActionObject;
+    }
+  }
+
+  function processBlock(block) {
+    var e_2, _a;
+
+    var resolvedActions = [];
+
+    try {
+      for (var _b = _tslib.__values(block.actions), _c = _b.next(); !_c.done; _c = _b.next()) {
+        var action = _c.value;
+        var resolved = handleAction(block.type, action);
+
+        if (resolved) {
+          resolvedActions = resolvedActions.concat(resolved);
+        }
+      }
+    } catch (e_2_1) {
+      e_2 = {
+        error: e_2_1
+      };
+    } finally {
+      try {
+        if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+      } finally {
+        if (e_2) throw e_2.error;
+      }
+    }
+
+    deferredToBlockEnd.forEach(function (action) {
+      predictableExec(action, updatedContext, _event);
+    });
+    deferredToBlockEnd.length = 0;
+    return resolvedActions;
+  }
+
+  var resolvedActions = utils.flatten(actionBlocks.map(processBlock));
+  return [resolvedActions, updatedContext];
+}
+
+exports.actionTypes = actionTypes;
+exports.after = after;
+exports.assign = assign;
+exports.cancel = cancel;
+exports.choose = choose;
+exports.done = done;
+exports.doneInvoke = doneInvoke;
+exports.error = error;
+exports.escalate = escalate;
+exports.forwardTo = forwardTo;
+exports.getActionFunction = getActionFunction;
+exports.initEvent = initEvent;
+exports.isActionObject = isActionObject;
+exports.log = log;
+exports.pure = pure;
+exports.raise = raise;
+exports.resolveActions = resolveActions;
+exports.resolveLog = resolveLog;
+exports.resolveRaise = resolveRaise;
+exports.resolveSend = resolveSend;
+exports.resolveStop = resolveStop;
+exports.respond = respond;
+exports.send = send;
+exports.sendParent = sendParent;
+exports.sendTo = sendTo;
+exports.sendUpdate = sendUpdate;
+exports.start = start;
+exports.stop = stop;
+exports.toActionObject = toActionObject;
+exports.toActionObjects = toActionObjects;
+exports.toActivityDefinition = toActivityDefinition;
+});
+
+const actions$1 = /*@__PURE__*/getDefaultExportFromCjs(actions);
+
 const machineVideoPlayer = 
-/** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOgBsB7dCAqAYgBkB5AQQBEBRNgbQAYBdRKAAOFWLgAuuCviEgAHogC0AVgAsJFQA4AnAEYAzAZ1qdAJjMA2LVoA0IAJ6I9ZgyUvrtV1wZW8DagC+gfZoWHiEpMJk6A60dAAKLACqAMocfIJIIKLiUjJyighmvHokAVoGlmZqAOxqpgZW9k4ILm4eal7VRn5NwaEYOATEJMLoAK6wkIkMLACamXK5ktKy2UUlliSmKjW8vPU62lq1LYgqbryuZvq1Zuq1+lrBISD4FBBwcmHDkctiVYFDbKVy8dy1DzHEyHSx6NTnBBKALuFR6WqGe5aao6SoDEC-CKjSjUWgAvJrQrKPRaMwQqEqGGQ+GIvR6bYGLRqKpwkw6eoufGEkZRGJxfBQclA9agIo6Nz3a7wkxPPTXSys1zuXyVeG1WpaXgqfVCoZEqKTaYQKX5GUKRAGeEkPQqaqWSx1cweQ6sx3Oyz+erXfzPSyvQJAA */
+/** @xstate-layout N4IgpgJg5mDOIC5QDcCWEwHsAKAbAhgJ5gBOAdAA4HEkDEAygNICS2A2gAwC6ioFmsVABdUmAHa8QAD0QBOAOwAaEIUQAWDWQCsagExaAHFoDMs3QYBs5iwF8bytBhzVSlF3QAyzRgFFOPJBB+QRFxSRkEHS0yU0sOAEZ44wso42VVBHiTMgM1eQsjNWNdDiK1Owd0LDwiVypaugARZnovX39JYOFRCUCI4z1tDiM43Xl4lNkLdMR4tQ4yCzUteRLzQ1MJipBHavc3BtoAQQBVZoB5MgAVZgBZP25OgW6wvtmsnNKtWQ4LY2TdLIDGkVLNsrl5ON5Ao1BZoRxZNtds4GgcaLQTgA5NoPAJ8Z6hXqgCKrYwxYyQgwKXQTCwFGaZcF5KEwuE-RH2HZVFE0NGuXCYfAQVBiKC0DznI6NHyNDqBLqE8KIf4GGK6ZLxeQ6JJFAwMjRqbR6QwmMyWaxI7k1Xn1XkkMBCwiUfAAV1gkFo2A8RwAmnL8SEekqEAZ5IbjBxIxx8nCSgZ4vrjKqtWogUYCitU5anNa6vt7Y60SKxdhTvRcU9A69iYhxoatCk9BwtOqSrIGSZoqVdGN5KHDGHbJzkbnyLbXAWIE7bcXaP6ggSg28EHXtI2Si3igj9VSyHN1QZrFqEtm9qjkJhcC6ALZgWgANXOHhO93nCqXNYQUzIeRWSZWkZREooIroeZDQhYEwRrkNLRqePKuBeV63mQLpiNeLpCB6j7Pvc1znAA4gRHgVvKi7VtIiBaN8ZDRqslhAtqsIMua4HxOYHA0rCugWAo8GjmQSE3mAZAYVhEAPk+L4+PhREkW+5FEpRkQ0XR1iMWoczTCB8a6GqOirLIxSQVodicmImAYPAgQju4lYvEpEQJiB2SJFEBR9mGGgcpUOb7OOJD2Yqy6pgyPFkrxGhLEs0bqqZw5Wv5+wCkKxZBR+ynqgsoZ-GoljGHMBXARksLyOB8wmPlh5WEOvlnja+YOlO6UUREv4-vEzbxBCQJZBoDLGFo8RkD2eScdGdFWMY-FJaik7Tq67oQC1jlyJYtHRoYeVhoeyT6kN5JaBwg3xLICgIoNM2ogFZDzUWoorcGm4dV1PXxjo+p5TE+TxnoWSJHS8hXbyQm3o9y5JmVg26PMSYUgkyRqAyqyGtCm7UZxDbqsDiGXsJqHoZhkDg5+RTRNDsPAvICNLCx3UxHCGyY6ddI4+QoMiWJxNkVWq0rgdSRAjDwIFQYzYsSUORwlY8ylPGp1mTYQA */
 createMachine({
+  id: "videoPlayer",
   predictableActionArguments: true,
   tsTypes: {},
-  initial: 'loading',
+  type: 'parallel',
+  context: {
+    title: '',
+    artist: '',
+    duration: 0,
+    elapsed: 0,
+    likeStatus: 'unliked',
+    volume: 1,
+  },
   states: {
-    loading: {
+    player: {
+      initial: 'loading',
+      states: {
+        loading: {
+          on: {
+            LOADED: {
+              actions: ['setSongData'],
+              target: 'ready'
+            },
+          },
+        },
+        ready: {
+          initial: 'playing',
+          states: {
+            paused: {
+              on: {
+                PLAY: { target: '#videoPlayer.player.ready.playing' },
+              },
+            },
+            playing: {
+              entry: ['playAudio'],
+              exit: ['pauseAudio'],
+              on: {
+                PAUSE: { target: '#videoPlayer.player.ready.paused' },
+              },
+            },
+          },
+          always: {
+            cond: 'elapsedIsGreaterThanDuration',
+            target: '#videoPlayer.player.finished',
+          },
+        },
+        finished: {
+          type: 'final',
+        }
+      },
+      onDone: {
+        target: '#videoPlayer.player.loading',
+      },
       on: {
-        LOADED: {
-          target: 'playing'
+        SKIP: {
+          actions: ['skipSong'],
+          target: 'player.loading'
+        },
+        LIKE: {
+          actions: ['likeSong'],
+        },
+        DISLIKE: {
+          actions: ['dislikeSong', actions.raise({ type: 'SKIP' })],
+        },
+        'AUDIO.TIME': {
+          actions: ['assignTime'],
+        },
+        UNLIKE: {
+          // add an action to unlike the song
+          actions: ['unlikeSong'],
         },
       },
     },
-    playing: {
-      on: {
-        PAUSE: {
-          target: 'paused'
+    volume: {
+      initial: 'unmuted',
+      states: {
+        unmuted: {
+          on: {
+            'VOLUME.TOGGLE': 'muted',
+          },
+        },
+        muted: {
+          on: {
+            'VOLUME.TOGGLE': 'unmuted',
+          },
         },
       },
-    },
-    paused: {
       on: {
-        PLAY: {
-          target: 'playing'
-        },
+        VOLUME: {
+          cond: 'volumeIsInRange',
+          actions: ['changeVolume'],
+        }
       },
     },
   },
+}).withConfig({
+  actions: {
+    assignTime: assign({
+    //elapsed: ( context, event: T_ArtistPayload ) => event.data.elapsed,
+    }),
+    setSongData: assign({
+      title: (context, event) => event.data.title,
+      artist: (context, event) => event.data.artist,
+      duration: (context, event) => event.data.duration,
+      elapsed: 0,
+      likeStatus: 'unliked',
+    }),
+    playAudio: () => { console.log('entry action: playAudio'); },
+    pauseAudio: () => { console.log('exit action: pauseAudio'); },
+    skipSong: () => { console.log('action: skipSong'); },
+    likeSong: assign({
+      likeStatus: 'liked'
+    }),
+    dislikeSong: assign({
+      likeStatus: 'disliked'
+    }),
+    unlikeSong: assign({
+      likeStatus: 'unliked'
+    }),
+    changeVolume: assign({
+      volume: (context) => {
+        /* if ( context.volume < 10 ) {
+            return context.volume + 1;
+        } */
+        return 1;
+      }
+    }),
+  },
+  guards: {
+    volumeIsInRange: (context) => context.volume >= 1 && context.volume <= 10,
+    elapsedIsGreaterThanDuration: (context) => context.elapsed > context.duration,
+  },
 });
 const serviceMachineVideoPlayer = fe(machineVideoPlayer, { devTools: true }).start();
+/********** */
 const machineDataSelection = 
 /** @xstate-layout N4IgpgJg5mDOIC5QQIYBcUGUwBswGM0BLAewDsA6WXA48gYgDEBJAGQBUBRAJQH0BBTJk7tMAbQAMAXUSgADiVhE6ZWSAAeiAGwSKAJgCcRgBwB2CcYAsAVj2W9egDQgAnogC01yxWN7jARntTAGYJAy1Qg0sAX2jnVAxsPEJSSmpklXphVk4AYXZeAHV+dlyACVZmTFFJGSQQBSUVNU0EHX0jAzMLGzsHZzcEd39-YIpQ4MCQyyjTf1MYuJAErBoU8io1zOy8gtyAeQA5dn5mQ55xaTVG5VSW7V1DE3MrW3snVw95-wpTUwDrP5wqYuhJgoslmQSBA4GoVklaHd6jdmvVWu5gtZfhIcf5DP4vKZrP8Bh5waYKHiAlo-KYtEDjMEtLF4uhVhlUpsOeRropbjy0Yg8R1nj03nogaShnprAYKDZJsT3hYDEyWcs2Qj1mktpyAO7ofAACxwRFgaFgjBIACcALa8ppI0CtPzePTBImBYLGAx4gwSaxS4bC3z+H1WAzWCT+CL+dXw3UbdKIjYAMyIODQYGtRDIUCtdod-NUgoQrv0HsBlm9vsMAaDXnGli0Pu9dKjdK0i1ZiUTOu5lHw5Awuezlpt9uRfNRzsQ5fdnurPr99c+Q2+HS0-smozeBlisSAA */
 createMachine({

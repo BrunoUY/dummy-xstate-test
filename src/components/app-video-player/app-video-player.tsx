@@ -1,6 +1,5 @@
 import { Element, Component, State, h, Watch } from '@stencil/core';
-import { serviceMachineVideoPlayer, T_MachineVideoPlayerState, T_ArtistPayload } from "../../machines/machines";
-
+import { serviceVideoPlayer, T_MachineVideoPlayer  } from "../../machines/videoPlayer";
 
 @Component({
     tag: 'app-video-player',
@@ -8,24 +7,28 @@ import { serviceMachineVideoPlayer, T_MachineVideoPlayerState, T_ArtistPayload }
 })
 export class AppVideoPlayer {
 
-    @State() state_State: T_MachineVideoPlayerState;
+    @State() state_State: T_MachineVideoPlayer;
     @Element() element_el: HTMLElement;
 
     componentWillLoad () {
-        serviceMachineVideoPlayer.subscribe( state => {
-
-
+        
+        serviceVideoPlayer.subscribe( state => {
             this.state_State = state;
             console.group( 'machine.subscribe()' );
-            console.log( `context: ${ JSON.stringify(this.state_State.context) }` );
+            console.log(`state: ${ JSON.stringify( this.state_State.value ) }`)
+            console.log( `context: ${ JSON.stringify( this.state_State.context ) }` );
+            console.log( `actions: ${ JSON.stringify( this.state_State.actions ) }` );
             console.groupEnd();
         } );
 
-        serviceMachineVideoPlayer.send( 'LOADED' );
+        //serviceVideoPlayer.send( 'LOADED' );
     }
     
     componentDidLoad () {
         this._checkButtonStatus()
+        console.log( serviceVideoPlayer.initialState );
+        this.element_el.querySelector( '#scrubber' ).setAttribute( 'max', `${ this.state_State.context.duration }` );
+        (this.element_el.querySelector( '#scrubber' ) as HTMLInputElement).value = `${ this.state_State.context.elapsed }`;
     }
 
     componentDidRender () {
@@ -34,10 +37,9 @@ export class AppVideoPlayer {
     
     @Watch( 'state_State' )
     watchHandler_state_State () {
-        if( this.state_State.matches( "loading" ) ) {
+        if( this.state_State.matches( "player.loading" ) ) {
             console.log( 'watchHandler_state_State' );
-            serviceMachineVideoPlayer.send( 'LOADED', {
-                type: 'LOADED',
+            serviceVideoPlayer.send( 'LOADED', {
                 data: {
                     title: 'Video Title',
                     artist: 'Video Artist',
@@ -49,18 +51,35 @@ export class AppVideoPlayer {
 
 
     onClick (p_event: string) {
-        serviceMachineVideoPlayer.send( p_event );
+        serviceVideoPlayer.send( p_event );
         this._checkButtonStatus();
     }
      
     _checkButtonStatus () {
-        ( this.element_el.querySelector( '.playing' ) as HTMLElement ).hidden = !this.state_State.matches( 'playing' );
-        ( this.element_el.querySelector( '.paused' ) as HTMLElement ).hidden = !this.state_State.matches( 'paused' );
+        ( this.element_el.querySelector( '.playing' ) as HTMLElement ).hidden = !this.state_State.matches( 'player.ready.playing' );
+        ( this.element_el.querySelector( '.paused' ) as HTMLElement ).hidden = !this.state_State.matches( 'player.ready.paused' );
     }
     
     render() {
         return (
             <div>
+                <ion-tem>
+                    <ion-list>
+                        <ion-item>
+                    <ion-label>{ this.state_State.context.title }</ion-label>
+                        </ion-item>
+                    </ion-list>
+                    <ion-item>
+                        <ion-label>{ this.state_State.context.artist }</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>{ this.state_State.context.duration }</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <input type="range" id="scrubber" min="0" max="0" />
+                    </ion-item>
+                </ion-tem>
+
                 <ion-icon
                     name="thumbs-up-outline"
                     onClick={ () => this.onClick( 'LIKE' ) }
@@ -96,7 +115,7 @@ export class AppVideoPlayer {
 
                 <ion-icon
                     name="volume-high"
-                    onClick={ () => this.onClick( 'VOLUME' ) }
+                    onClick={ () => this.onClick( 'VOLUME.TOGGLE' ) }
                 ></ion-icon>
                 
             </div>

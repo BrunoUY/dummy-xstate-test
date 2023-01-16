@@ -5437,6 +5437,450 @@ var assign = assign$1,
     doneInvoke = doneInvoke$1,
     raise = raise$1;
 
+var j = Object.defineProperty;
+var y = (e, t, s) => t in e ? j(e, t, { enumerable: !0, configurable: !0, writable: !0, value: s }) : e[t] = s;
+var d = (e, t, s) => (y(e, typeof t != "symbol" ? t + "" : t, s), s);
+var h = /* @__PURE__ */ ((e) => (e[e.unknown = 0] = "unknown", e[e.machine = 1] = "machine", e[e.callback = 2] = "callback", e[e.promise = 3] = "promise", e[e.observable = 4] = "observable", e))(h || {}), p = /* @__PURE__ */ ((e) => (e[e.unknown = 0] = "unknown", e[e.missing = 1] = "missing", e[e.forbidden = 2] = "forbidden", e[e.guardedAndNoChange = 3] = "guardedAndNoChange", e[e.taken = 4] = "taken", e))(p || {});
+function S(e) {
+  return e.target != null || e.actions != null;
+}
+function I(e) {
+  return Array.isArray(e);
+}
+function u(e) {
+  return e.machine !== void 0;
+}
+function k(e) {
+  return typeof (e == null ? void 0 : e.type) == "string";
+}
+function N(e, t) {
+  const s = {}, n = {};
+  let i = 0;
+  const a = e.length;
+  for (; i < a; )
+    n[e[i]] = 1, i += 1;
+  for (const r in t)
+    Object.prototype.hasOwnProperty.call(n, r) || (s[r] = t[r]);
+  return s;
+}
+function E(e) {
+  const t = N(["actorRef", "subscription"], e);
+  return t.snapshot = JSON.stringify(t.snapshot), t.actorId = e.actorRef.id, t.machine !== void 0 && (t.machine = JSON.stringify(t.machine)), t;
+}
+function D(e) {
+  return Object.entries(e).reduce((t, [s, n]) => (typeof n == "function" ? t[s] = n.toString() : t[s] = n, t), {});
+}
+function _(e, t) {
+  for (const s of e.children.values())
+    if (s.sessionId === t)
+      return s;
+}
+const X = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm, O = /([^\s,]+)/g;
+function U(e) {
+  var s;
+  const t = e.toString().replace(X, "");
+  return (s = t.slice(t.indexOf("(") + 1, t.indexOf(")")).match(O)) != null ? s : [];
+}
+function z(e) {
+  try {
+    const t = U(e.subscribe);
+    return t.length === 1 && t[0] === "next" ? h.callback : t.length === 3 && t[0] === "next" && t[1] === "handleError" && t[2] === "complete" ? e.subscribe.toString().length > 150 ? h.promise : h.observable : h.unknown;
+  } catch {
+    return console.error("Failed to introspect the subscribe method on an actor", e), h.unknown;
+  }
+}
+function J(e, t) {
+  var i, a, r, o;
+  const s = u(e), n = {
+    actorRef: e,
+    sessionId: "",
+    parent: void 0,
+    snapshot: s && e.initialized || !s ? e.getSnapshot() : null,
+    machine: void 0,
+    events: [],
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    status: void 0,
+    history: [],
+    type: h.unknown,
+    dead: u(e) ? e.initialized && (((i = e.getSnapshot) == null ? void 0 : i.call(e).done) || e.status === InterpreterStatus.Stopped) : !1
+  };
+  return n.parent = e.parent ? (a = e.parent) == null ? void 0 : a.sessionId : t == null ? void 0 : t.sessionId, u(e) ? (n.sessionId = e.sessionId, n.status = e.status, n.machine = e.machine.definition, n.type = h.machine) : (n.sessionId = (o = (r = globalThis.crypto) == null ? void 0 : r.randomUUID()) != null ? o : String(Math.round(Math.random() * 1e6)), n.type = z(e)), n;
+}
+function L(e, t) {
+  return {
+    name: e.name,
+    data: D(e.data),
+    origin: e.origin,
+    createdAt: Date.now(),
+    transitionType: M(t)
+  };
+}
+function M(e) {
+  if (u(e)) {
+    const { configuration: t, event: s } = e.state, n = $(t);
+    switch (!0) {
+      case e.state.changed:
+        return p.taken;
+      case P(s.type, n):
+        return p.guardedAndNoChange;
+      case F(s.type, n):
+        return p.forbidden;
+      default:
+        return p.missing;
+    }
+  }
+  return p.unknown;
+}
+function $(e) {
+  return e.slice().sort((t, s) => t.order < s.order ? -1 : 1);
+}
+function P(e, t) {
+  for (const s of t) {
+    if (s.config.on === void 0)
+      continue;
+    const n = s.config.on;
+    if (I(n)) {
+      const i = n.filter((a) => a.event === e);
+      return i.length > 0 && i.every((a) => a.cond !== void 0);
+    } else if (n[e] !== void 0) {
+      const i = n[e];
+      if (typeof i == "string")
+        return !1;
+      if (Array.isArray(i))
+        return i.every((a) => S(a) && a.cond !== void 0);
+      if (S(i))
+        return i.cond !== void 0;
+    } else if (n[e] === void 0 && Object.prototype.hasOwnProperty.call(n, e))
+      return !1;
+  }
+  return !1;
+}
+function F(e, t) {
+  for (const s of t) {
+    const n = s.config.on;
+    if (n !== void 0) {
+      if (I(n)) {
+        if (n.some((i) => i.event === e))
+          return !1;
+        continue;
+      }
+      if (Object.prototype.hasOwnProperty.call(n, e) && n[e] === void 0)
+        return !0;
+      if (n[e] !== void 0)
+        return !1;
+    }
+  }
+  return !1;
+}
+var g = /* @__PURE__ */ ((e) => (e.update = "@xstate/inspect.update", e.actor = "@xstate/inspect.actor", e.actors = "@xstate/inspect.actors", e.connect = "@xstate/inspect.connect", e.connected = "@xstate/inspect.connected", e.send = "@xstate/inspect.send", e.read = "@xstate/inspect.read", e.unregister = "@xstate-ninja/unregister", e.deadActorsCleared = "@xstate-ninja/deadActorsCleared", e.settingsChanged = "@xstate-ninja/settingsChanged", e.inspectorCreated = "@xstate-ninja/inspectorCreated", e))(g || {});
+class G extends CustomEvent {
+  constructor(s) {
+    super("@xstate/inspect.actor", {
+      detail: {
+        type: "@xstate/inspect.actor",
+        sessionId: s.sessionId,
+        createdAt: Date.now(),
+        machine: u(s.actorRef) ? JSON.stringify(s.actorRef.machine) : void 0,
+        inspectedActor: E(s)
+      }
+    });
+    d(this, "type", "@xstate/inspect.actor");
+  }
+}
+class B extends CustomEvent {
+  constructor(s, n) {
+    const i = s.actorRef.getSnapshot();
+    super("@xstate/inspect.update", {
+      detail: {
+        type: "@xstate/inspect.update",
+        sessionId: s.sessionId,
+        actorId: s.actorRef.id,
+        snapshot: i != null ? JSON.stringify(i) : void 0,
+        createdAt: Date.now(),
+        status: u(s.actorRef) ? s.actorRef.status : 0,
+        event: L(n, s.actorRef)
+      }
+    });
+    d(this, "type", "@xstate/inspect.update");
+  }
+}
+class q extends CustomEvent {
+  constructor(s) {
+    const n = s.actorRef.getSnapshot();
+    super("@xstate-ninja/unregister", {
+      detail: {
+        type: "@xstate-ninja/unregister",
+        sessionId: s.sessionId,
+        snapshot: n != null ? JSON.stringify(n) : void 0,
+        createdAt: Date.now(),
+        status: u(s.actorRef) ? s.actorRef.status : 0,
+        dead: s.dead,
+        diedAt: s.diedAt
+      }
+    });
+    d(this, "type", "@xstate-ninja/unregister");
+  }
+}
+class ee extends CustomEvent {
+  constructor() {
+    super("@xstate/inspect.connect", {
+      detail: {
+        type: "@xstate/inspect.connect"
+      }
+    });
+    d(this, "type", "@xstate/inspect.connect");
+  }
+}
+class H extends CustomEvent {
+  constructor() {
+    super("@xstate/inspect.connected", {
+      detail: {
+        type: "@xstate/inspect.connected"
+      }
+    });
+    d(this, "type", "@xstate/inspect.connected");
+  }
+}
+class te extends CustomEvent {
+  constructor() {
+    super("@xstate/inspect.read", {
+      detail: {
+        type: "@xstate/inspect.read"
+      }
+    });
+    d(this, "type", "@xstate/inspect.read");
+  }
+}
+class ne extends CustomEvent {
+  constructor(s, n) {
+    super("@xstate/inspect.send", {
+      detail: {
+        type: "@xstate/inspect.send",
+        sessionId: n,
+        event: s,
+        createdAt: Date.now()
+      }
+    });
+    d(this, "type", "@xstate/inspect.send");
+  }
+}
+class se extends CustomEvent {
+  constructor() {
+    super("@xstate-ninja/deadActorsCleared", {
+      detail: {
+        type: "@xstate-ninja/deadActorsCleared"
+      }
+    });
+    d(this, "type", "@xstate-ninja/deadActorsCleared");
+  }
+}
+class K extends CustomEvent {
+  constructor(s) {
+    super("@xstate/inspect.actors", {
+      detail: {
+        type: "@xstate/inspect.actors",
+        actors: s.reduce((n, i) => (n[i.sessionId] = {
+          sessionId: i.sessionId,
+          parent: i.parent,
+          machine: JSON.stringify(i.machine),
+          snapshot: i.snapshot != null ? JSON.stringify(i.snapshot) : void 0,
+          createdAt: i.createdAt
+        }, n), {}),
+        inspectedActors: s.reduce((n, i) => (n[i.sessionId] = E(i), n), {})
+      }
+    });
+    d(this, "type", "@xstate/inspect.actors");
+  }
+}
+class ie extends CustomEvent {
+  constructor(s) {
+    super("@xstate-ninja/settingsChanged", {
+      detail: {
+        type: "@xstate-ninja/settingsChanged",
+        settings: s
+      }
+    });
+    d(this, "type", "@xstate-ninja/settingsChanged");
+  }
+}
+class Q extends CustomEvent {
+  constructor() {
+    super("@xstate-ninja/inspectorCreated", {
+      detail: {
+        type: "@xstate-ninja/inspectorCreated"
+      }
+    });
+    d(this, "type", "@xstate-ninja/inspectorCreated");
+  }
+}
+function re(e) {
+  return e.type === "@xstate/inspect.actors";
+}
+function oe(e) {
+  return e.type === "@xstate/inspect.actor";
+}
+function ae(e) {
+  return e.type === "@xstate-ninja/unregister";
+}
+function de(e) {
+  return e.type === "@xstate/inspect.update";
+}
+function ce(e) {
+  return e.type === "@xstate-ninja/deadActorsCleared";
+}
+function le(e) {
+  return e.type === "@xstate-ninja/settingsChanged";
+}
+function ue(e) {
+  return e.type === "@xstate/inspect.connected";
+}
+function he(e) {
+  return e.type === "@xstate-ninja/inspectorCreated";
+}
+var W = /* @__PURE__ */ ((e) => (e[e.error = 0] = "error", e[e.warn = 1] = "warn", e[e.info = 2] = "info", e[e.debug = 3] = "debug", e))(W || {});
+class Y {
+  constructor({ logLevel: t, enabled: s } = {}) {
+    d(this, "actors");
+    d(this, "logLevel", 0);
+    d(this, "enabled", !0);
+    d(this, "trackedActorTypes", [
+      h.machine,
+      h.callback,
+      h.observable
+    ]);
+    this.actors = {}, this.register = this.register.bind(this), this.unregister = this.unregister.bind(this), this.onRegister = this.onRegister.bind(this), this.onUpdate = this.onUpdate.bind(this), this.onConnect = this.onConnect.bind(this), this.onRead = this.onRead.bind(this), this.onSend = this.onSend.bind(this), this.onDeadActorsCleared = this.onDeadActorsCleared.bind(this), this.forgetAllChildren = this.forgetAllChildren.bind(this), this.isActorTypeTracked = this.isActorTypeTracked.bind(this), this.onSettingsChanged = this.onSettingsChanged.bind(this), t !== void 0 && this.setLogLevel(t), s === void 0 && (this.enabled = !!(globalThis != null && globalThis.__xstate_ninja__)), globalThis.addEventListener(g.connect, this.onConnect), globalThis.addEventListener(g.read, this.onRead), globalThis.addEventListener(g.send, this.onSend), globalThis.addEventListener(g.deadActorsCleared, this.onDeadActorsCleared), globalThis.addEventListener(g.settingsChanged, this.onSettingsChanged), globalThis.dispatchEvent(new Q());
+  }
+  onSettingsChanged(t) {
+    this.log("received", t);
+    const s = t.detail.settings;
+    this.trackedActorTypes = s.trackedActorTypes;
+  }
+  setLogLevel(t) {
+    this.logLevel = t;
+  }
+  setEnabled(t) {
+    this.enabled = !!globalThis.__xstate_ninja__ && t;
+  }
+  isActorTypeTracked(t) {
+    return this.trackedActorTypes.includes(t);
+  }
+  register(t, s) {
+    if (!this.enabled)
+      return;
+    this.log("register actor", t);
+    const n = J(t, s);
+    if (!this.isActorTypeTracked(n.type)) {
+      this.log(`Actor type ${n.type} is excluded from tracking.`);
+      return;
+    }
+    const i = new G(n);
+    globalThis.dispatchEvent(i);
+    const a = (r) => u(r) ? this.actors[r.sessionId] === void 0 : Object.values(this.actors).every((o) => o.actorRef.id !== r.id || o.parent !== n.sessionId || u(o.actorRef));
+    n.subscription = t.subscribe((r) => {
+      var C;
+      this.log(`----- actor updated (${n.actorRef.id}) -----`, r), n.updatedAt = Date.now(), (r == null ? void 0 : r.done) && !n.dead && (n.dead = !0, n.diedAt = Date.now()), n.snapshot = n.actorRef.getSnapshot();
+      let o;
+      if (u(n.actorRef)) {
+        if (o = n.actorRef.state._event, o.origin != null && o.origin.match(/^x:\d/)) {
+          const c = (C = _(n.actorRef, o.origin)) == null ? void 0 : C.id;
+          c != null && (o.origin = `${c} (${o.origin})`);
+        }
+        r.actions && (r.actions.filter((c) => c.type === "xstate.start").forEach((c) => {
+          var b, f;
+          const l = r.children[c.activity.id];
+          if (l) {
+            if (l.sessionId != null && ((f = (b = this.actors[l.sessionId]) == null ? void 0 : b.actorRef) == null ? void 0 : f.id) === l.id)
+              return;
+            const m = {
+              id: n.actorRef.id,
+              sessionId: n.sessionId
+            };
+            l.parent === void 0 && Object.isExtensible(l) && (l.parent = m), this.register(l, m);
+          }
+        }), r.actions.filter((c) => c.type === "xstate.stop").forEach((c) => {
+          const l = c.activity.id, b = Object.values(this.actors).find((f) => f.actorRef.id === l && f.parent === n.sessionId && !f.dead);
+          b && this.unregister(b.actorRef);
+        })), Object.values(r.children).filter(a).forEach((c) => {
+          const l = {
+            id: n.actorRef.id,
+            sessionId: n.sessionId
+          };
+          c.parent === void 0 && Object.isExtensible(c) && (c.parent = l), this.register(c, l);
+        });
+      } else
+        k(r) ? o = toSCXMLEvent(r) : o = toSCXMLEvent({
+          type: `xstate-ninja.emitted-value.${n.actorRef.id}`,
+          data: r
+        });
+      const x = new B(n, o);
+      n.history.push(x.detail), n.events.push(x.detail.event), globalThis.dispatchEvent(x), r != null && r.done && this.unregister(t);
+    }), u(t) && t.onStop(() => {
+      var r;
+      n.status = t.status, n.dead = !0, n.diedAt = Date.now(), this.unregister(t), ((r = t.children) == null ? void 0 : r.size) > 0 && this.forgetAllChildren(n.sessionId);
+    }), this.actors[n.sessionId] = n;
+  }
+  unregister(t) {
+    var a, r;
+    if (!this.enabled)
+      return;
+    this.log("unregister actor", t);
+    const [s, n] = (a = Object.entries(this.actors).find(([, { actorRef: o }]) => o === t)) != null ? a : [];
+    if (s === void 0 || n === void 0)
+      return;
+    (r = n.subscription) == null || r.unsubscribe(), n.dead = !0;
+    const i = Date.now();
+    n.updatedAt = i, n.diedAt = i, globalThis.dispatchEvent(new q(n)), delete this.actors[s];
+  }
+  forgetAllChildren(t) {
+    !this.enabled || Object.values(this.actors).forEach((s) => {
+      var n;
+      s.parent === t && (s.dead = !0, s.diedAt = Date.now(), this.unregister(s.actorRef), u(s.actorRef) && ((n = s.actorRef.children) == null ? void 0 : n.size) > 0 && this.forgetAllChildren(s.sessionId));
+    });
+  }
+  onRegister(t) {
+    if (!!this.enabled)
+      return t({}), {};
+  }
+  onUpdate(t) {
+    return t({}), {};
+  }
+  onConnect(t) {
+    !this.enabled || (this.log("received", t), globalThis.dispatchEvent(new H()), globalThis.dispatchEvent(new K(Object.values(this.actors))));
+  }
+  onRead(t) {
+    !this.enabled || (this.log("received", t), console.log("onSend not implemented", t));
+  }
+  onSend(t) {
+    !this.enabled || (this.log("received", t), console.log("onSend not implemented", t));
+  }
+  onDeadActorsCleared() {
+    Object.entries(this.actors).forEach(([t, s]) => {
+      s.dead && delete this.actors[t];
+    });
+  }
+  log(...t) {
+    this.logLevel >= 3 && console.log("%c[xstate-ninja]", "background-color: lightgray; color: black; padding: 1px 2px;", ...t);
+  }
+  error(...t) {
+    this.logLevel >= 0 && console.log("%c[xstate-ninja]", "background-color: red; color: black; padding: 1px 2px;", ...t);
+  }
+  warn(...t) {
+    this.logLevel >= 1 && console.log("%c[xstate-ninja]", "background-color: orange; color: black; padding: 1px 2px;", ...t);
+  }
+  info(...t) {
+    this.logLevel >= 2 && console.log("%c[xstate-ninja]", "background-color: teal; color: black; padding: 1px 2px;", ...t);
+  }
+}
+let v;
+function Z(e = {}) {
+  return v === void 0 && (v = new Y(e)), e.logLevel != null && v.setLogLevel(e.logLevel), e.enabled != null && v.setEnabled(e.enabled), v;
+}
+function fe(e, t) {
+  const s = interpret(e, t);
+  return t != null && t.devTools && Z().register(s), s;
+}
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function getDefaultExportFromCjs (x) {
@@ -7030,76 +7474,145 @@ exports.toActivityDefinition = toActivityDefinition;
 const actions$1 = /*@__PURE__*/getDefaultExportFromCjs(actions);
 
 const machineVideoPlayer = 
-/** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAYgGUBpASQAUBtABgF1FQAHAe1lwBdcP8rEAA9EAWgBMADgCcAOgCsCqQokKALAGYFMhuqkAaEAE9EEzYp0MAjJq0B2OxIBs6iQF93RtFjyFSADJUFACijCxIIJzcfAJCogjWKor2DAwSbrL2bpqGJuJJCoquUgxSms721m4unt4YOATEJAAiVGRBoeFC0bz8gpEJmhJyWjLW9qn2zunqzjJGpghihcX6ZRVVNc51ID6N-iQAqgBynWHMPVx9cYMFDEXqCqkS9lLOzpqaMhIL+curBQlDaVaoSWpePYNPzNABqAHkAkcALIXCLsa6xAagBKSIHFebmOwTd7WBSLArJIHrcqg7a7fYwohyAA2HHQEAIUBIAXhAEEWiEWt1Ir0sfFxBIGBZ7OMyZp7BoSjJ7BTElo5Gl3lLQUkZApNAzoU1mWwWehjFySDQ+UcyGirjF+hKEKo5NVPm4ProqhN1GrqhYtc4db7ZAojb4TXI2OgAK6wSDWgJ8gCaIoxTtuOMQzzkv2GUpc+s2fyW9hGCscv0mXySCs8kPwHAgcCEjJNjpu2JE4gV8ikb2cZOyw-K6lV-zErnd1hm6gYlV0ymlkYOxFZ7M5+CgXfFd2Wdbkg9Jzzm9YnAe0ckcUgXbkytmGa6ZMfNlp3e+dB7ESlGUiSPQVEVawkgkAM3DkGRZHefU1FcdQZB2SEO38GN40TCAv2zXtEhnfUHw+W8tADBQGEUap1GsHUpHMax0kbdwgA */
+/** @xstate-layout N4IgpgJg5mDOIC5QDcCWEwHsAKAbAhgJ5gBOAdAA4HEkDEAygNICS2A2gAwC6ioFmsVABdUmAHa8QAD0QBOAOwAaEIUQAWDWQCsagExaAHFoDMs3QYBs5iwF8bytBhzVSlF3QAyzRgFFOPJBB+QRFxSRkEHS0yU0sOAEZ44wso42VVBHiTMgM1eQsjNWNdDiK1Owd0LDwiVypaugARZnovX39JYOFRCUCI4z1tDiM43Xl4lNkLdMR4tQ4yCzUteRLzQ1MJipBHavc3BtoAQQBVZoB5MgAVZgBZP25OgW6wvtmsnNKtWQ4LY2TdLIDGkVLNsrl5ON5Ao1BZoRxZNtds4GgcaLQTgA5NoPAJ8Z6hXqgCKrYwxYyQgwKXQTCwFGaZcF5KEwuE-RH2HZVFE0NGuXCYfAQVBiKC0DznI6NHyNDqBLqE8KIf4GGK6ZLxeQ6JJFAwMjRqbR6QwmMyWaxI7k1Xn1XkkMBCwiUfAAV1gkFo2A8RwAmnL8SEekqEAZ5IbjBxIxx8nCSgZ4vrjKqtWogUYCitU5anNa6vt7Y60SKxdhTvRcU9A69iYhxoatCk9BwtOqSrIGSZoqVdGN5KHDGHbJzkbnyLbXAWIE7bcXaP6ggSg28EHXtI2Si3igj9VSyHN1QZrFqEtm9qjkJhcC6ALZgWgANXOHhO93nCqXNYQUzIeRWSZWkZREooIroeZDQhYEwRrkNLRqePKuBeV63mQLpiNeLpCB6j7Pvc1znAA4gRHgVvKi7VtIiBaN8ZDRqslhAtqsIMua4HxOYHA0rCugWAo8GjmQSE3mAZAYVhEAPk+L4+PhREkW+5FEpRkQ0XR1iMWoczTCB8a6GqOirLIxSQVodicmImAYPAgQju4lYvEpEQJiB2SJFEBR9mGGgcpUOb7OOJD2Yqy6pgyPFkrxGhLEs0bqqZw5Wv5+wCkKxZBR+ynqgsoZ-GoljGHMBXARksLyOB8wmPlh5WEOvlnja+YOlO6UUREv4-vEzbxBCQJZBoDLGFo8RkD2eScdGdFWMY-FJaik7Tq67oQC1jlyJYtHRoYeVhoeyT6kN5JaBwg3xLICgIoNM2ogFZDzUWoorcGm4dV1PXxjo+p5TE+TxnoWSJHS8hXbyQm3o9y5JmVg26PMSYUgkyRqAyqyGtCm7UZxDbqsDiGXsJqHoZhkDg5+RTRNDsPAvICNLCx3UxHCGyY6ddI4+QoMiWJxNkVWq0rgdSRAjDwIFQYzYsSUORwlY8ylPGp1mTYQA */
 createMachine({
+  id: "videoPlayer",
   predictableActionArguments: true,
   tsTypes: {},
-  initial: 'loading',
-  states: {
-    loading: {
-      on: {
-        LOADED: {
-          actions: ['setSongData'],
-          // add an aciton to asing the song data
-          target: 'playing'
-        },
-      },
-    },
-    playing: {
-      entry: ['playAudio'],
-      exit: ['pauseAudio'],
-      // when this state is entered, add an action to play the audio
-      // when this state is existed, add an action to pause the audio
-      on: {
-        PAUSE: {
-          target: 'paused'
-        },
-      },
-    },
-    paused: {
-      on: {
-        PLAY: {
-          target: 'playing'
-        },
-      },
-    },
+  type: 'parallel',
+  context: {
+    title: '',
+    artist: '',
+    duration: 0,
+    elapsed: 0,
+    likeStatus: 'unliked',
+    volume: 1,
   },
-  on: {
-    SKIP: {
-      // add an action to skip the song
-      actions: ['skipSong'],
-      target: 'loading'
+  states: {
+    player: {
+      initial: 'loading',
+      states: {
+        loading: {
+          on: {
+            LOADED: {
+              actions: ['setSongData'],
+              target: 'ready'
+            },
+          },
+        },
+        ready: {
+          initial: 'playing',
+          states: {
+            paused: {
+              on: {
+                PLAY: { target: '#videoPlayer.player.ready.playing' },
+              },
+            },
+            playing: {
+              entry: ['playAudio'],
+              exit: ['pauseAudio'],
+              on: {
+                PAUSE: { target: '#videoPlayer.player.ready.paused' },
+              },
+            },
+          },
+          always: {
+            cond: 'elapsedIsGreaterThanDuration',
+            target: '#videoPlayer.player.finished',
+          },
+        },
+        finished: {
+          type: 'final',
+        }
+      },
+      onDone: {
+        target: '#videoPlayer.player.loading',
+        actions(context, event, meta) {
+          console.log('onDone', context, event, meta);
+        },
+      },
+      on: {
+        SKIP: {
+          actions: ['skipSong'],
+          target: '#videoPlayer.player.loading'
+        },
+        LIKE: {
+          actions: ['likeSong'],
+        },
+        DISLIKE: {
+          actions: ['dislikeSong', actions.raise({ type: 'SKIP' })],
+        },
+        'AUDIO.TIME': {
+          actions: ['assignTime'],
+        },
+        UNLIKE: {
+          // add an action to unlike the song
+          actions: ['unlikeSong'],
+        },
+      },
     },
-    LIKE: {
-      // add an action to like the song
-      actions: ['likeSong'],
-    },
-    DISLIKE: {
-      // add an action to dislike the song,AND RAISE THE SKIP EVENT
-      actions: ['dislikeSong', actions.raise({ type: 'SKIP' })],
-    },
-    UNLIKE: {
-      // add an action to unlike the song
-      actions: ['unlikeSong'],
-    },
-    VOLUME: {
-      // add an action to change the volume
-      actions: ['changeVolume'],
+    volume: {
+      initial: 'unmuted',
+      states: {
+        unmuted: {
+          on: {
+            'VOLUME.TOGGLE': '#videoPlayer.volume.muted',
+          },
+        },
+        muted: {
+          on: {
+            'VOLUME.TOGGLE': '#videoPlayer.volume.unmuted',
+          },
+        },
+      },
+      on: {
+        VOLUME: {
+          cond: 'volumeIsInRange',
+          actions: ['changeVolume'],
+        }
+      },
     },
   },
 }).withConfig({
   actions: {
-    setSongData: () => { console.log('setSongData'); },
-    playAudio: () => { console.log('playAudio'); },
-    pauseAudio: () => { console.log('pauseAudio'); },
-    skipSong: () => { console.log('skipSong'); },
-    likeSong: () => { console.log('likeSong'); },
-    dislikeSong: () => { console.log('dislikeSong'); },
-    unlikeSong: () => { console.log('unlikeSong'); },
-    changeVolume: () => { console.log('changeVolume'); },
+    assignTime: assign({
+    //elapsed: ( context, event: T_ArtistPayload ) => event.data.elapsed,
+    }),
+    setSongData: assign({
+      title: (context, event) => event.data.title,
+      artist: (context, event) => event.data.artist,
+      duration: (context, event) => event.data.duration,
+      elapsed: 0,
+      likeStatus: 'unliked',
+    }),
+    playAudio: () => { console.log('entry action: playAudio'); },
+    pauseAudio: () => { console.log('exit action: pauseAudio'); },
+    skipSong: () => { console.log('action: skipSong'); },
+    likeSong: assign({
+      likeStatus: 'liked'
+    }),
+    dislikeSong: assign({
+      likeStatus: 'disliked'
+    }),
+    unlikeSong: assign({
+      likeStatus: 'unliked'
+    }),
+    changeVolume: assign({
+      volume: (context) => {
+        /* if ( context.volume < 10 ) {
+            return context.volume + 1;
+        } */
+        return 1;
+      }
+    }),
+  },
+  guards: {
+    volumeIsInRange: (context) => context.volume >= 1 && context.volume <= 10,
+    elapsedIsGreaterThanDuration: (context) => context.elapsed > context.duration,
   },
 });
-const serviceMachineVideoPlayer = interpret(machineVideoPlayer, { devTools: true }).start();
+const serviceMachineVideoPlayer = fe(machineVideoPlayer, { devTools: true }).start();
+/********** */
 const machineDataSelection = 
 /** @xstate-layout N4IgpgJg5mDOIC5QQIYBcUGUwBswGM0BLAewDsA6WXA48gYgDEBJAGQBUBRAJQH0BBTJk7tMAbQAMAXUSgADiVhE6ZWSAAeiAGwSKAJgCcRgBwB2CcYAsAVj2W9egDQgAnogC01yxWN7jARntTAGYJAy1Qg0sAX2jnVAxsPEJSSmpklXphVk4AYXZeAHV+dlyACVZmTFFJGSQQBSUVNU0EHX0jAzMLGzsHZzcEd39-YIpQ4MCQyyjTf1MYuJAErBoU8io1zOy8gtyAeQA5dn5mQ55xaTVG5VSW7V1DE3MrW3snVw95-wpTUwDrP5wqYuhJgoslmQSBA4GoVklaHd6jdmvVWu5gtZfhIcf5DP4vKZrP8Bh5waYKHiAlo-KYtEDjMEtLF4uhVhlUpsOeRropbjy0Yg8R1nj03nogaShnprAYKDZJsT3hYDEyWcs2Qj1mktpyAO7ofAACxwRFgaFgjBIACcALa8ppI0CtPzePTBImBYLGAx4gwSaxS4bC3z+H1WAzWCT+CL+dXw3UbdKIjYAMyIODQYGtRDIUCtdod-NUgoQrv0HsBlm9vsMAaDXnGli0Pu9dKjdK0i1ZiUTOu5lHw5Awuezlpt9uRfNRzsQ5fdnurPr99c+Q2+HS0-smozeBlisSAA */
 createMachine({
@@ -7155,7 +7668,7 @@ createMachine({
   },
 });
 // We can start and share the machine here
-const testHandleDataService = interpret(machineTestHandleData);
+const testHandleDataService = fe(machineTestHandleData);
 testHandleDataService.start();
 
 export { interpret as i, machineDataSelection as m, serviceMachineVideoPlayer as s, testHandleDataService as t };
